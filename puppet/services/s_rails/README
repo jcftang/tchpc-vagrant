@@ -1,0 +1,15 @@
+The class s_rails installs the necessary components for a Ruby on Rails application
+environment.
+
+Required variables:
+
+  $rvm_default_ruby - The version string of the default ruby to be installed via RVM
+    upon the server. (Note this is not required by s_rails, but by the s_ruby::rvm
+    class that is included within.
+
+Optional variables:
+
+  $railsenv - If set, the apache directive "RailsEnv" will be set to the variable's
+    value in /etc/httpd/conf.d/z-RailsEnv.conf.  If not set, "RailsEnv" will be set
+    to "production".
+

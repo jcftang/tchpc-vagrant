@@ -1,0 +1,43 @@
+# Listen on the default HTTP port
+Listen <%= real_http_listen_address %>:80
+
+# Serve content from the standard document root
+DocumentRoot "/var/www/html"
+<Directory "/var/www/html">
+    AllowOverride AuthConfig Limit
+    Order Allow,Deny
+    Allow from all
+</Directory>
+
+# Search for directory index pages
+<IfModule !mod_dir.c>
+    LoadModule dir_module modules/mod_dir.so
+</IfModule>
+DirectoryIndex index.html
+
+# Configure standard MIME-type handling
+<IfModule !mod_mime.c>
+    LoadModule mime_module modules/mod_mime.so
+</IfModule>
+DefaultType text/plain
+AddType application/x-compress .Z
+AddType application/x-gzip .gz .tgz
+AddType application/x-x509-ca-cert .crt
+AddType application/x-pkcs7-crl .crl
+
+# Configure standard broken-client handling
+<IfModule !mod_setenvif.c>
+    LoadModule setenvif_module modules/mod_setenvif.so
+</IfModule>
+BrowserMatch "Mozilla/2" nokeepalive
+BrowserMatch "MSIE 4\.0b2;" nokeepalive downgrade-1.0 force-response-1.0
+BrowserMatch "RealPlayer 4\.0" force-response-1.0
+BrowserMatch "Java/1\.0" force-response-1.0
+BrowserMatch "JDK/1\.0" force-response-1.0
+BrowserMatch "Microsoft Data Access Internet Publishing Provider" redirect-carefully
+BrowserMatch "MS FrontPage" redirect-carefully
+BrowserMatch "^WebDrive" redirect-carefully
+BrowserMatch "^WebDAVFS/1.[0123]" redirect-carefully
+BrowserMatch "^gnome-vfs/1.0" redirect-carefully
+BrowserMatch "^XML Spy" redirect-carefully
+BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully

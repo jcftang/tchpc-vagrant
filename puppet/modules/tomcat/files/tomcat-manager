@@ -1,0 +1,110 @@
+#!/bin/bash
+
+PATH=/bin:/usr/bin
+prog=$(basename $0)
+
+# Set CATALINA_BASE from CATALINA_HOME if necessary
+[ -z "$CATALINA_BASE" ] && CATALINA_BASE="$CATALINA_HOME"
+
+# *Only* if root, use system-wide defaults as fallback values
+if [ $EUID -eq 0 ]; then
+  [ -z "$CATALINA_BASE" ] \
+    && CATALINA_BASE=$(ls -d /usr/share/tomcat* | tail -1)
+  [ -z "$MANAGER_PORT" ] && MANAGER_PORT=8080
+fi
+
+# URL of the manager webapp for the desired Tomcat instance
+MANAGER_URL="http://localhost:$MANAGER_PORT/manager"
+
+# curl(1) options to operate silently and use saved manager credentials
+CURL_OPTS="-sfSK $CATALINA_BASE/conf/curlrc"
+
+# The first line of the manager webapp's response will begin with "OK" if the
+# operation was successful. This awk program is used to pass the manager's
+# response to stdout while determing our proper exit status (gathered from
+# awk's $?) based on the presence of this "OK" indicator.
+AWK_PROG='{print $0} NR==1 && /^OK/ {RC=1} END {exit 1-RC}'
+
+function usage() {
+  echo "Usage: $prog configure"
+  echo "       $prog (start | stop | reload | sessions) <path>"
+  echo "       $prog (serverinfo | list | roles)"
+  echo "       $prog resources [<type>]"
+  exit 64 # EX_USAGE
+}
+
+function abort() {
+  echo "$prog: error: $1"
+  exit 1
+}
+
+function configure() {
+  # Change directory to this instance's confdir
+  cd "$CATALINA_BASE/conf" \
+    || abort "can't chdir to $CATALINA_BASE/conf"
+
+  # Generate a strong, random password
+  password=$(head -c 18 /dev/random | base64) \
+    || abort "random password generation failed"
+
+  # Create a tomcat-users.xml file contaning just one user, with the manager
+  # role, for the built-in manager webapp. (Using a here-document rather than
+  # echo(1) keeps $password from appearing in the process list.)
+  tmpfile=$(mktemp tomcat-users.xml.XXXXXXXX) \
+    || abort "can't create new tomcat-users.xml"
+  cat >$tmpfile <<-	EOF || abort "can't write new tomcat-users.xml"
+	<?xml version='1.0' encoding='utf-8'?>
+	<tomcat-users>
+	  <role rolename="manager"/>
+	  <user username="manager" password="$password" roles="manager"/>
+	</tomcat-users>
+	EOF
+  mv -f $tmpfile tomcat-users.xml || abort "can't install tomcat-users.xml"
+
+  # Save the manager's username and password in a curlrc file that later
+  # invocations of this script can use with 'curl -K'.
+  tmpfile=$(mktemp curlrc.XXXXXXXX) || abort "can't create new curlrc"
+  cat >$tmpfile <<-	EOF || abort "can't write new curlrc"
+	# curl(1) arguments to supply username and password to manager webapp
+	--user manager:$password
+	EOF
+  mv -f $tmpfile curlrc || abort "can't install curlrc"
+
+  # *Only* if root, adjust permissions to allow tomcat to read the database
+  if [ $EUID -eq 0 ]; then
+    chgrp tomcat tomcat-users.xml && chmod 0640 tomcat-users.xml \
+      || abort "failed to adjust permissions on tomcat-users.xml"
+  fi
+}
+
+case "$1" in
+  configure)
+    [ $# -eq 1 ] || usage
+    configure
+    exit $?
+    ;;
+  start|stop|reload|sessions)
+    [ $# -eq 2 ] || usage
+    context_path="/${2#/}"
+    curl $CURL_OPTS "$MANAGER_URL/$1?path=$context_path" \
+      | awk "$AWK_PROG"
+    exit $?
+    ;;
+  serverinfo|list|roles)
+    [ $# -eq 1 ] || usage
+    curl $CURL_OPTS "$MANAGER_URL/$1" \
+      | awk "$AWK_PROG"
+    exit $?
+    ;;
+  resources)
+    unset type_arg
+    [ $# -le 2 ] || usage
+    [ $# -eq 2 ] && type_arg="?type=$2"
+    curl $CURL_OPTS "$MANAGER_URL/$1$type_arg" \
+      | awk "$AWK_PROG"
+    exit $?
+    ;;
+  *)
+    usage
+    ;;
+esac

@@ -1,0 +1,13 @@
+# This file is created by puppet
+# DO NOT HAND-EDIT
+DEVICE="<%= device %>"
+BOOTPROTO="<%= bootproto %>"
+<% if has_variable?("gateway") then -%>
+GATEWAY="<%= gateway %>"
+<% end -%>
+HWADDR="<%= hwaddr %>"
+IPADDR="<%= ipaddr %>"
+IPV6INIT="<%= ipv6init %>"
+MTU="<%= mtu %>"
+NETMASK="<%= netmask %>"
+ONBOOT="<%= onboot %>"

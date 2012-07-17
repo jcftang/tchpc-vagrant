@@ -1,0 +1,21 @@
+# Django configuration for <%= name.capitalize %>
+
+<Directory "<%= app_root %>/static">
+    Order Allow,Deny
+    Allow from all
+</Directory>
+Alias <%= url_root %>/static/ <%= app_root %>/static/
+
+# For the WSGI script itself, we use a regular Alias with SetHandler instead
+# of WSGIScriptAlias so that all our URL aliasing is done inside mod_alias.
+# This grants us arbitrary control over the order of evaluation for our URL
+# aliases (through config-file order), which is not possible when URL
+# translations are split between mod_alias and mod_wsgi.
+
+<Directory "<%= app_root %>/wsgi">
+    Order Allow,Deny
+    Allow from all
+    SetHandler wsgi-script
+    Options +ExecCGI
+</Directory>
+Alias <%= url_root %> <%= app_root %>/wsgi/app.wsgi

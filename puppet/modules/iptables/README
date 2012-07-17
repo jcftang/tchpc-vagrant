@@ -1,0 +1,6 @@
+Optional variables:
+
+$iptables_modules - An array-valued list of nat helpers to be set as
+  the value of the IPTABLES_MODULES setting in iptables-config.
+  WARNING: this variable must be defined as an array, even if you are
+  setting a single value. "['nf_conntrack_ftp']" NOT 'nf_conntrack_ftp'

@@ -1,0 +1,11 @@
+<IfModule !mod_env.c>
+    LoadModule env_module modules/mod_env.so
+</IfModule>
+
+RailsBaseURI <%= url_root %>
+<Directory "/var/www/html<%= url_root %>">
+    AllowOverride None
+    Options -MultiViews
+    SetEnv RAILS_RELATIVE_URL_ROOT <%= url_root %>
+    SetEnv RAILS_ENV <%= env %>
+</Directory>

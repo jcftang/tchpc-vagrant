@@ -1,0 +1,9 @@
+apache::minimal optional variables:
+  $log_format - access log format, or nickname, as the CustomLog directive takes
+    (default: common)
+apache::basic and apache::ssl::basic optional variables:
+  $http_listen_address - interface on which httpd should listen (default: *,
+    meaning all interfaces)
+apache::redirecting optional variables:
+  $canonical_www_name - canonical name to which non-matching HTTP requests
+    should be redirected (default: $fqdn)

@@ -1,0 +1,4 @@
+ssh::server optional variables:
+  $sshkey_aliases - additional aliases to add to the SSH known hosts entry
+    exported by this node, useful if users will SSH into this system by
+    other names (default: none)

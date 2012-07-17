@@ -1,0 +1,14 @@
+/var/log/httpd/*log {
+    # Keep two years' worth of weekly logs in their own directory
+    weekly
+    rotate 105
+    compress
+    dateext
+    olddir archive
+    missingok
+    sharedscripts
+    delaycompress
+    postrotate
+        /sbin/service httpd reload > /dev/null 2>/dev/null || true
+    endscript
+}

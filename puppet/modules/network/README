@@ -1,0 +1,17 @@
+This class can be used to create network interface configuration files. If 
+a new interface is defined on a system, or an existing interface is modified,
+Puppet will ifdown/ifup that interface upon modification.
+
+Usage:
+
+  network::interface' { 'eth1':
+    device    => 'eth1',              # required, no default
+    hwaddr    => 'aa:bb:cc:dd:ee:ff', # required, no default
+    ipaddr    => '1.2.3.4',           # required, no default
+    netmask   => '5.6.7.8',           # required, no default
+    gateway   => '9.10.11.12',        # optional, no default
+    bootproto => 'static',            # optional, default = static
+    ipv6init  => 'yes',               # optional, default = yes
+    mtu       => '1500',              # optional, default = 1500
+    onboot    => 'yes',               # optional, default = yes
+  }

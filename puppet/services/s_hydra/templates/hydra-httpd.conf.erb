@@ -1,0 +1,29 @@
+# This is for external access 
+
+<VirtualHost _default_:80>
+  ServerName  <%= fqdn %>
+  ServerAlias <%= fqdn %>
+
+  DocumentRoot <%= doc_root %>
+
+  <Directory <%= doc_root %>>
+
+    AllowOverride all
+    Options -MultiViews
+    Order allow,deny
+    Allow from all
+
+  </Directory>
+
+</VirtualHost>
+
+# exposes the tomcat app for web browsing
+#ProxyPass /manager        ajp://localhost:8009/manager
+#ProxyPassReverse /manager ajp://localhost:8009/manager
+
+# expose tomcat solr for web browsing
+ProxyPass        /solr ajp://localhost:8009/solr
+ProxyPassReverse /solr ajp://localhost:8009/solr
+
+# for capistrano, will need:
+#DocumentRoot /home/lyberadmin/hydrus/current/public

@@ -1,0 +1,17 @@
+# Listen on the default HTTPS port
+Listen <%= real_http_listen_address %>:443
+
+# Standard HTTPS vhost configuration
+<VirtualHost _default_:443>
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/localhost.crt
+    SSLCertificateChainFile /etc/pki/tls/certs/server-chain.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
+    <FilesMatch "\.(cgi|shtml|phtml|php3?)$">
+        SSLOptions +StdEnvVars
+    </FilesMatch>
+    <IfModule mod_rewrite.c>
+        RewriteEngine on
+        RewriteOptions inherit
+    </IfModule>
+</VirtualHost>
