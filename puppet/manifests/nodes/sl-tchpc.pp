@@ -10,10 +10,10 @@ node 'sl-tchpc.localhost' {
 
    rvm::system_user { vagrant: ; jsmith: ; }
    include s_basenode,
-          s_apache,
+#          s_apache,
           s_nokogiri::dependencies,
           rvm,
-          s_rails,
+#          s_rails,
           mysql::server,
           s_ssh
 
@@ -21,9 +21,9 @@ node 'sl-tchpc.localhost' {
     distribution => 'java-1.6.0-openjdk',
   }
 
-        class { 'rvm::passenger::gem': 
-                  version => $passenger_version,
-                  ruby_version => $rvm_system_ruby }
-
+#        class { 'rvm::passenger::gem': 
+#                  version => $passenger_version,
+#                  ruby_version => $rvm_system_ruby }
+#
         # include s_ruby::rvm
 }
