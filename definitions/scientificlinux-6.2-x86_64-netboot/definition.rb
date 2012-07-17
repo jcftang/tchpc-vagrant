@@ -30,6 +30,7 @@ Veewee::Session.declare({
     "chef.sh",
     "vagrant.sh",
     "virtualbox.sh",
+    "rvm-ruby.sh",
     "cleanup.sh"
   ],
   :postinstall_timeout => 10000
