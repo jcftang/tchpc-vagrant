@@ -1,4 +1,0 @@
-user required variables:
-  $kerberos_realm - default Kerberos v5 realm for this site
-user optional variables:
-  $ksuers - extra users whose root principals should be in root's .k5login

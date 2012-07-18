@@ -1,5 +1,0 @@
-mysql::server optional variables:
-  $mysql_bindaddress - set the mysql daemon to listen on a specified interface
-    (default: 127.0.0.1)
-  $mysqld_options - an array-valued list of options that will be included in the
-    /etc/my.cnf file (default: none)

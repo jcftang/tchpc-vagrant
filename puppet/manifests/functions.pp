@@ -1,51 +1,36 @@
-  define download_file(
-        $from="",
-        $cwd="") {                                                                                         
+define line($file, $line, $ensure = 'present') {
+    case $ensure {
+        default : { err ( "unknown ensure value ${ensure}" ) }
+        present: {
+            exec { "/bin/echo '${line}' >> '${file}'":
+                unless => "/bin/grep -qFx '${line}' '${file}'"
+            }
+        }
+        absent: {
+            exec { "/bin/grep -vFx '${line}' '${file}' | /usr/bin/tee '${file}' > /dev/null 2>&1":
+              onlyif => "/bin/grep -qFx '${line}' '${file}'"
+            }
 
-    exec { $name:                                                                                                                     
-        command  => "curl -o ${cwd}/${name} ${from}",                                                         
-        cwd      => $cwd,
-        path     => "/sbin:/bin:/usr/sbin:/usr/bin",
-        creates  => "${cwd}/${name}",                                                              
+            # Use this resource instead if your platform's grep doesn't support -vFx;
+            # note that this command has been known to have problems with lines containing quotes.
+            # exec { "/usr/bin/perl -ni -e 'print unless /^\\Q${line}\\E\$/' '${file}'":
+            #     onlyif => "/bin/grep -qFx '${line}' '${file}'"
+            # }
+        }
     }
+}
 
-    file { "${cwd}/${name}":
-      mode    => 644,
-      require => Exec["${name}"]
-    }
+define append_if_no_such_line($file, $line, $refreshonly = 'false') {
+   exec { "/bin/echo '$line' >> '$file'":
+      unless      => "/bin/grep -Fxqe '$line' '$file'",
+      path        => "/bin",
+      refreshonly => $refreshonly,
+   }
+}
 
-    if $require {
-      Exec[$name] {
-        require +> $require
-      }
-    }
-  }
-
-  define extract_file(
-    $destdir="",
-    $creates="",
-    $user="",
-    $to
-  ) {
-    exec { $name:
-      command => "tar -xvz -C ${destdir} -f ${name}",
-      path    => "/usr/bin:/bin",
-      user    => "${user}",
-      creates => "${destdir}/${creates}",                                                              
-    }
-
-    file { "${destdir}/${creates}":
-      mode    => 775,
-      require => Exec["${name}"]
-    }
-
-    exec { "/bin/mv ${destdir}/${creates} ${to}":
-      require => File["${destdir}/${creates}"],
-      creates => "${to}"
-    }
-
-    file { "${to}":
-      require => Exec["/bin/mv ${destdir}/${creates} ${to}"]
-    }
-
-  }
+define delete_lines($file, $pattern) {
+   exec { "sed -i -r -e '/$pattern/d' $file":
+      path   => "/bin",
+      onlyif => "/bin/grep -E '$pattern' '$file'",
+   }
+}

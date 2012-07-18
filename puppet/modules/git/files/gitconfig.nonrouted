@@ -1,6 +1,0 @@
-[tar]
-	umask = 022
-
-[http]
-	proxy = $http_proxy
-
