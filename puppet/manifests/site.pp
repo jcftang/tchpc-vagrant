@@ -33,4 +33,8 @@ node "default" {
         package { $enhancers:
 		require => Line["http_proxy", "https_proxy", "ftp_proxy"],
 	}
+
+	service { "iptables":
+		enable => false,
+	}
 }
