@@ -50,7 +50,7 @@ Vagrant::Config.run do |global_config|
   # Every Vagrant virtual environment requires a box to build off of.
 
     config.vm.box = "sl62-x86_64"
-    config.vm.network :hostonly, "10.0.1.101"
+    config.vm.network :hostonly, "10.0.1.102"
     config.vm.host_name = "cports.localhost"
 
     config.vm.provision :puppet do |puppet|
