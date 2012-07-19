@@ -27,14 +27,19 @@ node "default" {
 		require => File["/etc/profile.d/proxy.sh"],
 	}
 
+	line { http_proxy_yum:
+		file => "/etc/yum.conf",
+		line => "proxy=http://proxy.tchpc.tcd.ie:8080",
+	}
 
         Package { ensure => "installed" }
-        $enhancers = [ "screen", "strace", "sudo", "git", "gcc-gfortran" ]
+        $enhancers = [ "screen", "strace", "sudo", "git" ]
         package { $enhancers:
-		require => Line["http_proxy", "https_proxy", "ftp_proxy"],
+               require => Line["http_proxy_yum"],
 	}
 
 	service { "iptables":
 		enable => false,
+		ensure => "stopped",
 	}
 }
