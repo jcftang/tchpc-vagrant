@@ -1,3 +1,13 @@
+## Installation (of VirtualBox VM)
+
+Prerequisites:
+
+  - Oracle VirtualBox
+  - Ruby
+  - bundler gem
+
+1. Clone the git repository
+
 1. Use bundler to install the deployment Gemfile
 
 ```bash
