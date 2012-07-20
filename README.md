@@ -1,3 +1,7 @@
+## Notes
+
+This is a set of base configurations for the TCHPC site for vagrant.
+
 ## Installation (of VirtualBox VM)
 
 Prerequisites:
