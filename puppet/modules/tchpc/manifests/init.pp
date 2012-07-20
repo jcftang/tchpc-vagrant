@@ -51,6 +51,7 @@ class tchpc {
 
     if ( $supported == true ) {
 	class { "tchpc::proxy": }
+	class { "tchpc::ntp": }
     }
 
 }
@@ -86,4 +87,17 @@ class tchpc::proxy {
         package { $enhancers:
                require => Line["http_proxy_yum"],
 	}
+}
+
+class tchpc::ntp {
+        line { ntp_conf:
+                file => "/etc/ntp.conf",
+                line => "server ntp.tchpc.tcd.ie",
+        }
+
+        service { "ntpd":
+                enable => true,
+                ensure => "running",
+                require => Line["ntp_conf"],
+        }
 }
