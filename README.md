@@ -3,8 +3,9 @@
 Prerequisites:
 
   - Oracle VirtualBox
-  - Ruby
-  - bundler gem
+  - Ruby (run time and development headers)
+    - rubygems
+    - bundler gem
 
 1. Clone the git repository
 
