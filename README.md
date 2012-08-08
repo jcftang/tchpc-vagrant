@@ -1,6 +1,17 @@
 ## Notes
 
-This is a set of base configurations for the TCHPC site for vagrant.
+This is a set of base configurations for the TCHPC site for vagrant. A
+number of defintions have been created
+
+### Standard SL boxes with a 10gb disk
+
+* scientificlinux-6.2-i386-netboot.box
+* scientificlinux-6.2-x86_64-netboot.box
+
+### Devops SL boxes with 15gb root disk and 5gb free space
+
+* scientificlinux-6.2-i386-netboot-devops.box
+* scientificlinux-6.2-x86_64-netboot-devops.box
 
 ## Installation (of VirtualBox VM)
 
