@@ -18,9 +18,12 @@ number of defintions have been created
 Prerequisites:
 
   - Oracle VirtualBox
+    - requires kernel headers (yum install kernel-devel)
+    - requires a c compiler (yum install gcc)
   - Ruby (run time and development headers)
-    - rubygems
-    - bundler gem
+    - rubygems (yum install ruby ruby-devel rubygems)
+    - bundler gem (gem install bundler)
+    - vagrant gem (gem install vagrant)
 
 1. Clone the git repository
 
