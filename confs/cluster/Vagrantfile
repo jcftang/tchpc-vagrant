@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant::Config.run do |config|
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/precise64.box"
+  config.ssh.forward_agent = true
+  
+  servers = {
+    :cnode1 => {:network => "33.33.33.220", :nodename => "cnode3@33.33.33.220"},
+    :cnode2 => {:network => "33.33.33.221", :nodename => "cnode3@33.33.33.221"},
+    :cnode3 => {:network => "33.33.33.222", :nodename => "cnode3@33.33.33.222"},
+    :cnode4 => {:network => "33.33.33.223", :nodename => "cnode4@33.33.33.223"}
+  }
+  
+  servers.each do |name, opts|
+    config.vm.define name do |cnode|
+      # uncomment the following line if you want the basebox to start in gui mode
+      cnode.vm.boot_mode = :gui
+      cnode.vm.network :hostonly, opts[:network]
+
+#      cnode.vm.provision :puppet, :facter => { "cnode_node_name" => "cnode@#{opts[:network]}" } do |puppet|
+#        puppet.manifests_path = "manifests"
+#        puppet.manifest_file = "cnodebox.pp"
+#        puppet.module_path = ["modules"]
+#        puppet.options = "--verbose --debug"
+#      end      
+    end
+  end
+end
