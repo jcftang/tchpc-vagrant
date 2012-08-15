@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'vagrant'
-gem 'veewee'
+gem 'vagrant', '~> 1.0.3'
+gem 'veewee', :git => 'https://github.com/jedi4ever/veewee.git'
 gem 'sahara'
 gem 'puppet'
 gem 'capistrano'
