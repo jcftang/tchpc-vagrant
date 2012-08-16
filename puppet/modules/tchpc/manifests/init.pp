@@ -57,8 +57,14 @@ class tchpc {
 }
 
 class tchpc::proxy {
-	file { "/etc/profile.d/proxy.sh": ensure => present, }
+	file { "/root/.curlrc": ensure => present, }
+	line { curlrc_proxy:
+		file => "/root/.curlrc",
+		line => "proxy = http://proxy.tchpc.tcd.ie:8080",
+		require => File["/root/.curlrc"]
+	}
 
+	file { "/etc/profile.d/proxy.sh": ensure => present, }
 	line { http_proxy:
 		file => "/etc/profile.d/proxy.sh",
 		line => "export http_proxy=http://proxy.tchpc.tcd.ie:8080",
@@ -74,6 +80,30 @@ class tchpc::proxy {
 	line { ftp_proxy:
 		file => "/etc/profile.d/proxy.sh",
 		line => "export ftp_proxy=http://proxy.tchpc.tcd.ie:8080",
+		require => File["/etc/profile.d/proxy.sh"],
+	}
+
+	line { HTTP_PROXY:
+		file => "/etc/profile.d/proxy.sh",
+		line => "export HTTP_PROXY=http://proxy.tchpc.tcd.ie:8080",
+		require => File["/etc/profile.d/proxy.sh"],
+	}
+
+	line { HTTPS_PROXY:
+		file => "/etc/profile.d/proxy.sh",
+		line => "export HTTPS_PROXY=http://proxy.tchpc.tcd.ie:8080",
+		require => File["/etc/profile.d/proxy.sh"],
+	}
+
+	line { FTP_PROXY:
+		file => "/etc/profile.d/proxy.sh",
+		line => "export FTP_PROXY=http://proxy.tchpc.tcd.ie:8080",
+		require => File["/etc/profile.d/proxy.sh"],
+	}
+
+	line { rvm_proxy:
+		file => "/etc/profile.d/proxy.sh",
+		line => "export rvm_proxy=http://proxy.tchpc.tcd.ie:8080",
 		require => File["/etc/profile.d/proxy.sh"],
 	}
 
