@@ -1,3 +1,21 @@
+## README
+
+This is the top-level TCHPC-VAGRANT repo which contains a development, testing and
+integration environment.
+
+There are components in this system and it's submodules which are
+considered to be private and non-redistributable. If you are are not sure
+of the which modules are redistributable please contact the DRI-STRAND-3
+team.
+
+### IMPORTANT/WARNING
+
+This development scaffold has not been tested on windows!!!, The puppet
+scripts are currently targeted at the TCHPC network. If you are outside
+of the TCHPC network please look at _puppet/manifests/site.pp_ and
+comment out the appropriate line otherwise the proxies will be set and
+it *will not* work for you.
+
 ## Notes
 
 This is a set of base configurations for the TCHPC site for vagrant. A
