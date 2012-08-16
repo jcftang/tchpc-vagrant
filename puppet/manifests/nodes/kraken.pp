@@ -42,6 +42,12 @@ node 'kraken.localhost' inherits default {
 		require => Rvm_system_ruby['ruby-1.9.3-p194'];
 	}
 
+	rvm_gem {
+		'ruby-1.9.3-p194/bundler':
+		ensure => 'present',
+		require => Rvm_system_ruby['ruby-1.9.3-p194'];
+	}
+
 	# openjdk from repos
 	class { "java":	}
 }
