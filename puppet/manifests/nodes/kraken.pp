@@ -36,6 +36,12 @@ node 'kraken.localhost' inherits default {
 		require => Rvm_gemset['ruby-1.9.3-p194@vagrant'];
 	}
 
+	rvm_gem {
+		'ruby-1.9.3-p194/puppet':
+		ensure => 'present',
+		require => Rvm_gemset['ruby-1.9.3-p194'];
+	}
+
 	# openjdk from repos
 	class { "java":	}
 }
