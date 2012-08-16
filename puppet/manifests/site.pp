@@ -1,3 +1,10 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+## define some stages as proxies need to be configured before main
+stage { [pre, post]: }
+Stage[pre] -> Stage[main] -> Stage[post]
+
 # Import site-wide variables
 import 'variables.pp'
 import 'functions.pp'
@@ -7,11 +14,11 @@ import 'nodes/*.pp'
 
 # Default thing to do for all nodes
 node "default" {
-	class { "tchpc": }
+	# comment out the following line if you are not on the TCHPC network
+	class { "tchpc": stage => pre }
 
 	service { "iptables":
 		enable => false,
 		ensure => "stopped",
 	}
-
 }
