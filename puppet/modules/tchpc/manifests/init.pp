@@ -64,6 +64,13 @@ class tchpc::proxy {
 		require => File["/root/.curlrc"]
 	}
 
+	file { "/root/.gemrc": ensure => present, }
+	line { gem_proxy:
+		file => "/root/.gemrc",
+		line => "http-proxy: http://proxy.tchpc.tcd.ie:8080",
+		require => File["/root/.gemrc"],
+	}
+
 	file { "/etc/profile.d/proxy.sh": ensure => present, }
 	line { http_proxy:
 		file => "/etc/profile.d/proxy.sh",
