@@ -37,13 +37,23 @@ node 'kraken.localhost' inherits default {
 	}
 
 	rvm_gem {
-		'ruby-1.9.3-p194/puppet':
+		'ruby-1.9.3-p194/bundler':
 		ensure => 'present',
 		require => Rvm_system_ruby['ruby-1.9.3-p194'];
-	}
 
-	rvm_gem {
-		'ruby-1.9.3-p194/bundler':
+		'ruby-1.9.3-p194/cucumber':
+		ensure => 'present',
+		require => Rvm_system_ruby['ruby-1.9.3-p194'];
+
+		'ruby-1.9.3-p194/rspec':
+		ensure => 'present',
+		require => Rvm_system_ruby['ruby-1.9.3-p194'];
+
+		'ruby-1.9.3-p194/autotest':
+		ensure => 'present',
+		require => Rvm_system_ruby['ruby-1.9.3-p194'];
+
+		'ruby-1.9.3-p194/puppet':
 		ensure => 'present',
 		require => Rvm_system_ruby['ruby-1.9.3-p194'];
 	}
