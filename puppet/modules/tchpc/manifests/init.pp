@@ -71,8 +71,6 @@ class tchpc::proxy {
 		require => File["/root/.gemrc"],
 	}
 
-	file { "/etc/profile.d/proxy.sh": ensure => present, }
-
 	line { http_proxy_yum:
 		file => "/etc/yum.conf",
 		line => "proxy=http://proxy.tchpc.tcd.ie:8080",
