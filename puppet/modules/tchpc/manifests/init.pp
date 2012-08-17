@@ -72,51 +72,18 @@ class tchpc::proxy {
 	}
 
 	file { "/etc/profile.d/proxy.sh": ensure => present, }
-	line { http_proxy:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export http_proxy=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
-
-	line { https_proxy:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export https_proxy=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
-
-	line { ftp_proxy:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export ftp_proxy=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
-
-	line { HTTP_PROXY:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export HTTP_PROXY=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
-
-	line { HTTPS_PROXY:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export HTTPS_PROXY=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
-
-	line { FTP_PROXY:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export FTP_PROXY=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
-
-	line { rvm_proxy:
-		file => "/etc/profile.d/proxy.sh",
-		line => "export rvm_proxy=http://proxy.tchpc.tcd.ie:8080",
-		require => File["/etc/profile.d/proxy.sh"],
-	}
 
 	line { http_proxy_yum:
 		file => "/etc/yum.conf",
 		line => "proxy=http://proxy.tchpc.tcd.ie:8080",
+	}
+
+	file { "/etc/profile.d":
+		source => "puppet:///modules/tchpc/profile.d",
+		recurse => true,
+		owner => root,
+		group => root,
+		mode => 0644,
 	}
 
         Package { ensure => "installed" }
