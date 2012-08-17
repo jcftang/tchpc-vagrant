@@ -66,4 +66,27 @@ Vagrant::Config.run do |global_config|
     ]
   end
 
+  global_config.vm.define(:rpm) do |config|
+  # Every Vagrant virtual environment requires a box to build off of.
+
+    config.vm.box = "sl63-x86_64"
+    config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/scientificlinux-6.3-x86_64-netboot-devops.box"
+
+    config.vm.network :hostonly, "10.0.1.103"
+    config.vm.host_name = "rpm.localhost"
+
+    config.vm.provision :puppet do |puppet|
+      puppet.manifest_file = "site.pp"
+      puppet.manifests_path = 'puppet/manifests'
+      puppet.module_path = ['puppet/modules', 'puppet/services']
+    end
+
+    config.vm.customize [
+      "modifyvm", :id,
+      "--name", "RPM Build VM",
+      "--memory", "2048"
+    ]
+  end
+
+
 end
