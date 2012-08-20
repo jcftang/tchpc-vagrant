@@ -1,8 +1,10 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 node 'web.localhost' inherits default {
-	# install needed packages
-	Package { ensure => "installed" }
-	$enhancers = [ "httpd" ]
-	package { $enhancers: }
+
+	## install and startup apache
+	if ! defined(Package['httpd']) { package { 'httpd': ensure => installed } }
 
 	# turn on services
 	service { "httpd":
