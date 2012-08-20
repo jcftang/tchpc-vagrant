@@ -13,6 +13,15 @@ node 'web.localhost' inherits default {
 		require => Package["httpd"],
 	}
 
+	## install and startup postgresql using the puppet module https://github.com/inkling/puppet-postgresql
+	include postgresql
+	include postgresql::server
+	postgresql::db{ 'vagrant':
+	  user          => 'vagrant',
+	  password      => 'vagrant',
+	  grant         => 'all',
+	}
+
 #	include rvm
 #	rvm::system_user { vagrant: ; }
 #	rvm_system_ruby {
