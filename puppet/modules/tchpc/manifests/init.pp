@@ -84,11 +84,6 @@ class tchpc::proxy {
 		mode => 0644,
 	}
 
-        Package { ensure => "installed" }
-        $enhancers = [ "screen", "strace", "sudo", "git" ]
-        package { $enhancers:
-               require => Line["http_proxy_yum"],
-	}
 }
 
 class tchpc::ntp {
