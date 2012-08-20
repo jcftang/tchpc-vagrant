@@ -14,8 +14,8 @@ node 'web.localhost' inherits default {
 	}
 
 	## install and startup postgresql using the puppet module https://github.com/inkling/puppet-postgresql
-	include postgresql
-	include postgresql::server
+	class {  "postgresql": stage => main }
+	class {  "postgresql::server": stage => main }
 	postgresql::db{ 'vagrant':
 	  user          => 'vagrant',
 	  password      => 'vagrant',
