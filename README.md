@@ -23,13 +23,13 @@ number of defintions have been created
 
 ### Standard SL boxes with a 10gb disk
 
-* scientificlinux-6.2-i386-netboot.box
-* scientificlinux-6.2-x86_64-netboot.box
+* scientificlinux-6.3-i386-netboot.box
+* scientificlinux-6.3-x86_64-netboot.box
 
 ### Devops SL boxes with 15gb root disk and 5gb free space
 
-* scientificlinux-6.2-i386-netboot-devops.box
-* scientificlinux-6.2-x86_64-netboot-devops.box
+* scientificlinux-6.3-i386-netboot-devops.box
+* scientificlinux-6.3-x86_64-netboot-devops.box
 
 ## Installation (of VirtualBox VM)
 
@@ -54,9 +54,9 @@ $ bundle install
 2. Create a basebox and add it to vagrant
 
 ```bash
-$ vagrant basebox build 'scientificlinux-6.2-x86_64-netboot'
-$ vagrant basebox export 'scientificlinux-6.2-x86_64-netboot'
-$ vagrant box add 'sl62-x86_64' scientificlinux-6.2-x86_64-netboot.box
+$ vagrant basebox build 'scientificlinux-6.3-x86_64-netboot'
+$ vagrant basebox export 'scientificlinux-6.3-x86_64-netboot'
+$ vagrant box add 'sl63-x86_64' scientificlinux-6.3-x86_64-netboot.box
 ```
 
 If you already have a basebox created you can skip the build and export
