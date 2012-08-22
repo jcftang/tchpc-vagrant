@@ -29,7 +29,7 @@ class avahi::scientific inherits avahi::base {
         service { "avahi-dnsconfd":
                 enable => true,
                 ensure => "running",
-                require => Package["avahi-dnsconfd"],
+		require => [ Package["avahi-dnsconfd"], Service["avahi-daemon"] ]
         }
   }
 }
