@@ -14,24 +14,7 @@ node /gpfs.*\.localhost/ inherits default {
 	if ! defined(Package['nfs-utils']) { package { 'nfs-utils': ensure => installed } }
 
 	# bonjour/zeroconf/avahi adhoc dns entries
-	if ! defined(Package['yum-conf-epel']) { package { 'yum-conf-epel': ensure => installed } }
-	if ! defined(Package['nss-mdns']) { package { 'nss-mdns': ensure => installed,
-							require => Package['yum-conf-epel'] } }
-	if ! defined(Package['avahi-tools']) { package { 'avahi-tools': ensure => installed } }
-	if ! defined(Package['avahi-dnsconfd']) { package { 'avahi-dnsconfd': ensure => installed } }
-	if ! defined(Package['avahi']) { package { 'avahi': ensure => installed } }
-
-	# turn on services
-	service { "avahi-daemon":
-		enable => true,
-		ensure => "running",
-		require => Package["avahi"],
-	}
-	service { "avahi-dnsconfd":
-		enable => true,
-		ensure => "running",
-		require => Package["avahi-dnsconfd"],
-	}
+	include avahi
 
 #	service { "httpd":
 #		enable => true,
