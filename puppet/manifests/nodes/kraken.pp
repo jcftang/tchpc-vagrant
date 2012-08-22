@@ -63,4 +63,5 @@ node 'kraken.localhost' inherits default {
 
 	# openjdk from repos
 	class { "java":	}
+	class { "tomcat": }
 }
