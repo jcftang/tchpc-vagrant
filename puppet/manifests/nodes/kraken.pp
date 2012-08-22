@@ -1,3 +1,6 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
 #
 # template for tchpc site, there are dependancy issues with proxies
 #
