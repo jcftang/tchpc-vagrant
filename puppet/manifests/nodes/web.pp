@@ -41,4 +41,8 @@ node 'web.localhost' inherits default {
 #		ensure => 'present',
 #		require => Rvm_gemset['ruby-1.9.3-p194@vagrant'];
 #	}
+	class { "tomcat": }
+
+	# SOLR needs to be customised, the deployment only downloads the archive and unpacks it
+	#class { "solr": }
 }
