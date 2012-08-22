@@ -88,5 +88,4 @@ Vagrant::Config.run do |global_config|
     ]
   end
 
-
 end
