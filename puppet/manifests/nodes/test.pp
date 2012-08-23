@@ -7,4 +7,5 @@ node 'test.localhost' inherits default {
 #			, "git"
 #			]
 #	package { $enhancers: }
+	include avahi
 }

@@ -13,4 +13,5 @@ node 'rpm.localhost' inherits default {
 			, "flex"
 			, ]
 	package { $enhancers: }
+        include avahi
 }
