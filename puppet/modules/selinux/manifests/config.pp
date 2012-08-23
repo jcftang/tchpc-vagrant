@@ -28,17 +28,25 @@ class selinux::config(
 
   # Check to see if the mode set is valid.
   if $mode == 'enforcing' or $mode == 'permissive' or $mode == 'disabled' {
-    exec { "set-selinux-config-to-${mode}":
-      command => "sed -i \"s@^\\(SELINUX=\\).*@\\1${mode}@\" /etc/sysconfig/selinux",
-      unless  => "grep -q \"SELINUX=${mode}\" /etc/sysconfig/selinux",
-    }
 
+  # Change mode _first_
     case $mode {
       permissive,disabled: { 
         $sestatus = '0'
         if $mode == 'disabled' and $::selinux_current_mode == 'permissive' {
           notice('A reboot is required to fully disable SELinux. SELinux will operate in Permissive mode until a reboot')
         }
+
+        service{restorecond:
+          ensure => stopped,
+          enable => false,
+        }
+
+        service{mcstrans:
+          ensure => stopped,
+          enable => false,
+        }
+
       }
       enforcing: {
         $sestatus = '1'
@@ -46,9 +54,17 @@ class selinux::config(
     }
 
     exec { "change-selinux-status-to-${mode}":
+      user    => root,
       command => "echo ${sestatus} > /selinux/enforce",
       unless  => "grep -q '${sestatus}' /selinux/enforce",
     }
+
+    exec { "set-selinux-config-to-${mode}":
+      user    => root,
+      command => "sed -i \"s@^\\(SELINUX=\\).*@\\1${mode}@\" /etc/selinux/config",
+      unless  => "grep -q \"SELINUX=${mode}\" /etc/selinux/config",
+    }
+
   } else {
     fail("Invalid mode specified for SELinux: ${mode}")
   }

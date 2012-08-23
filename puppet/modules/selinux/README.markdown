@@ -2,9 +2,13 @@
 
 James Fryman <james@frymanet.com>
 
+Modified further for the New Zealand National eScience Infrastructure by:
+
+Aaron Hicks <aaron.hicks@nesi.org.nz>
+
 # Description
 
-This class manages SELinux on RHEL based systems.
+This class manages SELinux on RHEL and CentOS based systems.
 
 Parameters:
 

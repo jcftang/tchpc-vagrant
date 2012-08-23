@@ -19,12 +19,17 @@
 class selinux(
   $mode = 'permissive'
 ) {
-  include stdlib
-  include selinux::params
+  if $operatingsystem in ['RHEL','CentOS'] {
+    include stdlib
+    include selinux::params
 
-  anchor { 'selinux::begin': }
-  -> class { 'selinux::config':
-       mode => $mode,
+    anchor { 'selinux::begin': }
+    -> class { 'selinux::config':
+         mode => $mode,
+    }
+    -> anchor { 'selinux::end': }
   }
-  -> anchor { 'selinux::end': }
+  else {
+    warning {"SELinux control is not configured for $operatingsystem":}
+  }
 }
