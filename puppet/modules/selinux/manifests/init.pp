@@ -19,7 +19,7 @@
 class selinux(
   $mode = 'permissive'
 ) {
-  if $operatingsystem in ['RHEL','CentOS','Scientific']
+  if $operatingsystem in ['RHEL','CentOS','Scientific'] {
     include stdlib
     include selinux::params
 
