@@ -36,12 +36,20 @@ node /hadoop.*\.localhost/ inherits default {
 		require => User["hadoopuser"],
 	}
 
+	file { "/home/hadoopuser/.ssh":
+		ensure => "directory",
+		mode => "0600",
+		owner => "hadoopuser",
+		group => "hadoopgroup",
+		require => User["hadoopuser"],
+	}
+
 	file { "/home/hadoopuser/.ssh/id_rsa":
 		mode => "0600",
 		owner => "hadoopuser",
 		group => "hadoopgroup",
 		source => "puppet:///modules/insecure-keys/insecure_private_key" ,
-		require => User["hadoopuser"],
+		require => [ User["hadoopuser"], File["/home/hadoopuser/.ssh"], Ssh_authorized_key["hadoopuser"] ],
 	}
 
 	file { "/home/hadoopuser/.ssh/config":
@@ -49,7 +57,7 @@ node /hadoop.*\.localhost/ inherits default {
 		owner => "hadoopuser",
 		group => "hadoopgroup",
 		source => "puppet:///modules/insecure-keys/insecure_config",
-		require => User["hadoopuser"],
+		require => [ User["hadoopuser"], File["/home/hadoopuser/.ssh"], Ssh_authorized_key["hadoopuser"] ],
 	}
 
 	# define the hosts in /etc/hosts
