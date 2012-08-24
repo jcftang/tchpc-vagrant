@@ -6,12 +6,16 @@ Vagrant::Config.run do |global_config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  global_config.vm.define(:kraken) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
+  # We default to using SL which is a RHEL clone
+  global_config.vm.box = "sl63-x86_64"
+  global_config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/scientificlinux-6.3-x86_64-netboot-devops.box"
 
-    config.vm.box = "sl62-x86_64"
-    config.vm.network :hostonly, "10.0.1.100"
+  ## kraken is the initial prototype VM and should be considered to be an experiment.
+  global_config.vm.define(:kraken) do |config|
+    config.vm.network :hostonly, "10.0.1.200"
     config.vm.host_name = "kraken.localhost"
+    #config.vm.share_folder "kraken-prototype", "/home/vagrant/kraken-prototype", "kraken-prototype" , :nfs => true
 
     config.vm.provision :puppet do |puppet|
       puppet.manifest_file = "site.pp"
@@ -21,8 +25,10 @@ Vagrant::Config.run do |global_config|
 
     config.vm.customize [
       "modifyvm", :id,
-      "--name", "KRAKEN VM",
-      "--memory", "2048"
+      "--name", "Kraken VM",
+      "--memory", "1024",
+      "--cpus", "2"
     ]
   end
+
 end
