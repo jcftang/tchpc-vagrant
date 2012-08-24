@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant::Config.run do |global_config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  global_config.vm.box = "sl63-x86_64"
+  global_config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/scientificlinux-6.3-x86_64-netboot-devops.box"
+
+  global_config.vm.define(:test) do |config|
+    config.vm.network :hostonly, "10.0.1.100"
+    config.vm.host_name = "test.localhost"
+    config.vm.share_folder "rpmbuild", "/home/vagrant/rpmbuild", "rpmbuild" , :nfs => true
+
+    config.vm.provision :puppet do |puppet|
+      puppet.manifest_file = "site.pp"
+      puppet.manifests_path = 'puppet/manifests'
+      puppet.module_path = ['puppet/modules', 'puppet/services']
+    end
+
+    config.vm.customize [
+      "modifyvm", :id,
+      "--name", "TEST VM",
+      "--memory", "2048"
+    ]
+  end
+
+  global_config.vm.define(:rpm) do |config|
+    config.vm.network :hostonly, "10.0.1.103"
+    config.vm.host_name = "rpm.localhost"
+    config.vm.share_folder "rpmbuild", "/home/vagrant/rpmbuild", "rpmbuild" , :nfs => true
+
+    config.vm.provision :puppet do |puppet|
+      puppet.manifest_file = "site.pp"
+      puppet.manifests_path = 'puppet/manifests'
+      puppet.module_path = ['puppet/modules', 'puppet/services']
+    end
+
+    config.vm.customize [
+      "modifyvm", :id,
+      "--name", "RPM Build VM",
+      "--memory", "2048",
+      "--cpus", "2"
+    ]
+  end
+
+end
