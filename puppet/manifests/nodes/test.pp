@@ -1,11 +1,8 @@
 node 'test.localhost' inherits default {
 	# install needed packages
-#	Package { ensure => "installed" }
-#	$enhancers = [ "packages!!!"
-#			, "strace"
-#			, "sudo"
-#			, "git"
-#			]
-#	package { $enhancers: }
+	if ! defined(Package['git']) { package { 'git': ensure => installed } }
+
 	include avahi
+	class { "java": }
+	class { "jenkins": require => Class["java"], }
 }
