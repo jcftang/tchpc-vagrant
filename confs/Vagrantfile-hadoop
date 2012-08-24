@@ -1,0 +1,51 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+# For vagrant configuration options please go to http://vagrantup.com/v1/docs/index.html
+#
+
+Vagrant::Config.run do |global_config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  # We default to using SL which is a RHEL clone
+  global_config.vm.box = "sl63-x86_64"
+  global_config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/scientificlinux-6.3-x86_64-netboot-devops.box"
+
+  hadoopServers = {
+    :hadoop00 => {:network => "10.0.1.120", :nodename => "hadoop00@10.0.1.120", :host_name => "hadoop00.localhost"},
+    :hadoop01 => {:network => "10.0.1.121", :nodename => "hadoop01@10.0.1.121", :host_name => "hadoop01.localhost"},
+    :hadoop02 => {:network => "10.0.1.122", :nodename => "hadoop02@10.0.1.122", :host_name => "hadoop02.localhost"},
+  }
+ 
+  hadoopServers.each do |name, opts|
+    global_config.vm.define name do |hadoop|
+      # uncomment the following line if you want the basebox to start in gui mode
+      #hadoop.vm.boot_mode = :gui
+      hadoop.vm.network :hostonly, opts[:network]
+      hadoop.vm.host_name = opts[:host_name]
+      hadoop.vm.share_folder "storage-hadoop", "/home/vagrant/storage-hadoop", "storage-hadoop" , :nfs => true
+
+      hadoop.vm.provision :puppet, :facter => { "hadoop_node_name" => "hadoop@#{opts[:network]}" } do |puppet|
+        puppet.manifest_file = "site.pp"
+        puppet.manifests_path = 'puppet/manifests'
+        puppet.module_path = ['puppet/modules', 'puppet/services']
+        #puppet.options = "--verbose --debug"
+      end      
+
+    hadoop.vm.customize [
+      "modifyvm", :id,
+      "--name", opts[:host_name],
+      "--memory", "1024"
+    ]
+
+    end
+  end 
+  ##
+  ## END Configuration related to storage
+  ##
+
+end
