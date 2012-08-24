@@ -2,6 +2,8 @@
 # vi: set ft=ruby :
 
 node 'web.localhost' inherits default {
+	# bonjour/zeroconf/avahi adhoc dns entries
+        include avahi
 
 	## install and startup apache
 	if ! defined(Package['httpd']) { package { 'httpd': ensure => installed } }
