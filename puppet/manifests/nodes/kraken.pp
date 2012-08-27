@@ -6,9 +6,7 @@
 #
 node 'kraken.localhost' inherits default {
 	# install needed packages
-	Package { ensure => "installed" }
-	$enhancers = [ "httpd" ]
-	package { $enhancers: }
+	if ! defined(Package['httpd']) { package { 'httpd': ensure => installed } }
 
 	# turn on services
 	service { "httpd":
@@ -17,6 +15,8 @@ node 'kraken.localhost' inherits default {
 		require => Package["httpd"],
 	}
 
+	# turn on avahi so we can do things like  "http://kraken.local" from the host machine
+        include avahi
 
 	# install rvm and ruby but do not default to rvm's version of ruby as GEM_PATH gets clobbered and breaks puppet
 	include rvm
