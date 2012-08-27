@@ -8,6 +8,7 @@ node /hadoop.*\.localhost/ inherits default {
 	# install needed packages
         # generic devel tools and libraries
         if ! defined(Package['nfs-utils']) { package { 'nfs-utils': ensure => installed } }
+        if ! defined(Package['git']) { package { 'git': ensure => installed } }
 
 	# turn on avahi so we can do things like  "ssh hadoop00.local" between the vm's
 	include avahi
@@ -58,6 +59,21 @@ node /hadoop.*\.localhost/ inherits default {
 		group => "hadoopgroup",
 		source => "puppet:///modules/insecure-keys/insecure_config",
 		require => [ User["hadoopuser"], File["/home/hadoopuser/.ssh"], Ssh_authorized_key["hadoopuser"] ],
+	}
+
+	# the follow is done so the vagrant user can be used for testing and development without needing to su to the hadoopuser account
+	file { "/home/vagrant/.ssh/id_rsa":
+		mode => "0600",
+		owner => "vagrant",
+		group => "vagrant",
+		source => "puppet:///modules/insecure-keys/insecure_private_key" ,
+	}
+
+	file { "/home/vagrant/.ssh/config":
+		mode => "0600",
+		owner => "vagrant",
+		group => "vagrant",
+		source => "puppet:///modules/insecure-keys/insecure_config",
 	}
 
 	# define the hosts in /etc/hosts
