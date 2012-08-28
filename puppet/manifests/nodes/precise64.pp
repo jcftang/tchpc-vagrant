@@ -10,6 +10,7 @@ node 'precise64.localhost' inherits default {
 	if ! defined(Package['git-annex']) { package { 'git-annex': ensure => installed } }
 	if ! defined(Package['ikiwiki']) { package { 'ikiwiki': ensure => installed } }
 	if ! defined(Package['perlmagick']) { package { 'perlmagick': ensure => installed } }
+	if ! defined(Package['make']) { package { 'make': ensure => installed } }
 
 	# the current avahi module isn't generic enough to deal with rhel and debian
 	#include avahi
