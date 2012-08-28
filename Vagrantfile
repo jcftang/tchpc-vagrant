@@ -88,4 +88,27 @@ Vagrant::Config.run do |global_config|
     ]
   end
 
+  global_config.vm.define(:precise64) do |config|
+  # Every Vagrant virtual environment requires a box to build off of.
+
+    config.vm.box = "precise64"
+    config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/precise64.box"
+
+    config.vm.network :hostonly, "10.0.1.104"
+    config.vm.host_name = "precise64.localhost"
+
+    config.vm.provision :puppet do |puppet|
+      puppet.manifest_file = "site.pp"
+      puppet.manifests_path = 'puppet/manifests'
+      puppet.module_path = ['puppet/modules', 'puppet/services']
+      #puppet.options = "--verbose --debug"
+    end
+
+    config.vm.customize [
+      "modifyvm", :id,
+      "--name", "Precise64 VM",
+      "--memory", "2048"
+    ]
+  end
+
 end

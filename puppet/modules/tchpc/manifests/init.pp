@@ -39,8 +39,11 @@ class tchpc {
 
     case $operatingsystem {
         'scientific', 'redhat', 'centos': {
-            $supported = true
+            $supported = REDHAT
         }
+	'debian', 'ubuntu': {
+	    $supported = DEBIAN
+	}
         default: {
             $supported = false
             notify { "${module_name}_unsupported":
@@ -49,11 +52,31 @@ class tchpc {
         }
     }
 
-    if ( $supported == true ) {
+    if ( $supported == REDHAT ) {
 	class { "tchpc::proxy": }
+	class { "tchpc::proxy::rhel": }
 	class { "tchpc::ntp": }
     }
 
+    if ( $supported == DEBIAN ) {
+	class { "tchpc::proxy": }
+	class { "tchpc::proxy::debian": }
+    }
+}
+
+class tchpc::proxy::rhel {
+	line { http_proxy_yum:
+		file => "/etc/yum.conf",
+		line => "proxy=http://proxy.tchpc.tcd.ie:8080",
+	}
+}
+
+class tchpc::proxy::debian {
+	file { "/etc/apt/apt.conf": ensure => present, }
+	line { http_proxy_apt:
+		file => "/etc/apt/apt.conf",
+		line => 'Acquire::http::Proxy "http://proxy.tchpc.tcd.ie:8080";',
+	}
 }
 
 class tchpc::proxy {
@@ -71,11 +94,6 @@ class tchpc::proxy {
 		require => File["/root/.gemrc"],
 	}
 
-	line { http_proxy_yum:
-		file => "/etc/yum.conf",
-		line => "proxy=http://proxy.tchpc.tcd.ie:8080",
-	}
-
 	file { "/etc/profile.d":
 		source => "puppet:///modules/tchpc/profile.d",
 		recurse => true,
@@ -83,7 +101,6 @@ class tchpc::proxy {
 		group => root,
 		mode => 0644,
 	}
-
 }
 
 class tchpc::ntp {

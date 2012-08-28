@@ -17,8 +17,28 @@ node "default" {
 	# comment out the following line if you are not on the TCHPC network
 	class { "tchpc": stage => pre }
 
-	service { "iptables":
-		enable => false,
-		ensure => "stopped",
+	case $operatingsystem {
+		'scientific', 'redhat', 'centos': {
+			$supported = RHEL
+		}
+
+		'debian', 'ubuntu': {
+			$supported = DEBIAN
+		}
+
+		default: {
+			$supported = false
+			notify { "${module_name}_unsupported":
+				message => "The ${module_name} module is not supported on ${operatingsystem}",
+			}
+		}
 	}
+
+	if ( $supported == RHEL ) {
+		service { "iptables":
+			enable => false,
+			ensure => "stopped",
+		}
+	}
+
 }
