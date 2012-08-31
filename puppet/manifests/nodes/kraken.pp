@@ -18,6 +18,10 @@ node 'kraken.localhost' inherits default {
 	# turn on avahi so we can do things like  "http://kraken.local" from the host machine
         include avahi
 
+	# Install libyaml to silence the warning from ruby and psych
+	if ! defined(Package['yum-conf-epel']) { package { 'yum-conf-epel': ensure => installed } }
+	if ! defined(Package['libyaml-devel']) { package { 'libyaml-devel': ensure => installed,
+                                                        require => Package['yum-conf-epel'] } }
 	# install rvm and ruby but do not default to rvm's version of ruby as GEM_PATH gets clobbered and breaks puppet
 	include rvm
 	rvm::system_user { vagrant: ; }
@@ -25,6 +29,7 @@ node 'kraken.localhost' inherits default {
 		'ruby-1.9.3-p194':
 		ensure => 'present',
 		default_use => false,
+		require => Package['libyaml-devel'],
 	}
 
 	rvm_gemset {
