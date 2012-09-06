@@ -7,30 +7,46 @@
 node /ceph.*\.localhost/ inherits default {
 	# install needed packages
         # generic devel tools and libraries
-        if ! defined(Package['nfs-utils']) { package { 'nfs-utils': ensure => installed } }
+	if ! defined(Package['autoconf']) { package { 'autoconf': ensure => installed } }
+	if ! defined(Package['automake']) { package { 'automake': ensure => installed } }
+	if ! defined(Package['boost']) { package { 'boost': ensure => installed } }
 	if ! defined(Package['boost-devel']) { package { 'boost-devel': ensure => installed } }
+	if ! defined(Package['boost-program-options']) { package { 'boost-program-options': ensure => installed } }
+	if ! defined(Package['cryptopp-devel']) { package { 'cryptopp-devel': ensure => installed } }
 	if ! defined(Package['epel-release']) { package { 'epel-release': ensure => installed } }
+	if ! defined(Package['expat']) { package { 'expat': ensure => installed } }
 	if ! defined(Package['expat-devel']) { package { 'expat-devel': ensure => installed } }
+	if ! defined(Package['fcgi']) { package { 'fcgi': ensure => installed } }
+	if ! defined(Package['fcgi-devel']) { package { 'fcgi-devel': ensure => installed } }
 	if ! defined(Package['fuse']) { package { 'fuse': ensure => installed } }
 	if ! defined(Package['fuse-devel']) { package { 'fuse-devel': ensure => installed } }
+	if ! defined(Package['fuse-libs']) { package { 'fuse-libs': ensure => installed } }
 	if ! defined(Package['gcc']) { package { 'gcc': ensure => installed } }
 	if ! defined(Package['gcc-c++']) { package { 'gcc-c++': ensure => installed } }
+	if ! defined(Package['gperftools-devel']) { package { 'gperftools-devel': ensure => installed } }
+	if ! defined(Package['gtkmm24']) { package { 'gtkmm24': ensure => installed } }
+	if ! defined(Package['gtkmm24-devel']) { package { 'gtkmm24-devel': ensure => installed } }
 	if ! defined(Package['keyutils-libs-devel']) { package { 'keyutils-libs-devel': ensure => installed } }
+	if ! defined(Package['libaio']) { package { 'libaio': ensure => installed } }
 	if ! defined(Package['libaio-devel']) { package { 'libaio-devel': ensure => installed } }
 	if ! defined(Package['libatomic_ops-devel']) { package { 'libatomic_ops-devel': ensure => installed } }
+	if ! defined(Package['libcurl']) { package { 'libcurl': ensure => installed } }
 	if ! defined(Package['libcurl-devel']) { package { 'libcurl-devel': ensure => installed } }
+	if ! defined(Package['libedit']) { package { 'libedit': ensure => installed } }
 	if ! defined(Package['libedit-devel']) { package { 'libedit-devel': ensure => installed } }
 	if ! defined(Package['libtool']) { package { 'libtool': ensure => installed } }
+	if ! defined(Package['libuuid']) { package { 'libuuid': ensure => installed } }
 	if ! defined(Package['libuuid-devel']) { package { 'libuuid-devel': ensure => installed } }
 	if ! defined(Package['libxml2-devel']) { package { 'libxml2-devel': ensure => installed } }
+	if ! defined(Package['make']) { package { 'make': ensure => installed } }
+	if ! defined(Package['mod_fcgid']) { package { 'mod_fcgid': ensure => installed } }
 	if ! defined(Package['nss']) { package { 'nss': ensure => installed } }
 	if ! defined(Package['nss-devel']) { package { 'nss-devel': ensure => installed } }
+	if ! defined(Package['pkgconfig']) { package { 'pkgconfig': ensure => installed } }
+	if ! defined(Package['rpm-build']) { package { 'rpm-build': ensure => installed } }
 	if ! defined(Package['rpmdevtools']) { package { 'rpmdevtools': ensure => installed } }
         if ! defined(Package['git']) { package { 'git': ensure => installed } }
-
-	# these two are form EPEL
-	if ! defined(Package['gperftools-devel']) { package { 'gperftools-devel': ensure => installed } }
-	if ! defined(Package['fcgi-devel']) { package { 'fcgi-devel': ensure => installed } }
+        if ! defined(Package['nfs-utils']) { package { 'nfs-utils': ensure => installed } }
 
 	# turn on avahi so we can do things like  "ssh ceph00.local" between the vm's
 	include avahi
