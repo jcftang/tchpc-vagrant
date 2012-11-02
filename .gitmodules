@@ -1,3 +1,9 @@
 [submodule "puppet/modules/jenkins"]
 	path = puppet/modules/jenkins
 	url = https://github.com/example42/puppet-jenkins.git
+[submodule "puppet/modules/mysql"]
+	path = puppet/modules/mysql
+	url = http://github.com/example42/puppet-mysql.git
+[submodule "puppet/modules/apache"]
+	path = puppet/modules/apache
+	url = http://github.com/example42/puppet-apache.git
