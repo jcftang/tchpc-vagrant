@@ -7,3 +7,6 @@
 [submodule "puppet/modules/apache"]
 	path = puppet/modules/apache
 	url = http://github.com/example42/puppet-apache.git
+[submodule "puppet/modules/puppi"]
+	path = puppet/modules/puppi
+	url = http://github.com/example42/puppi.git
