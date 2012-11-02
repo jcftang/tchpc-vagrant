@@ -115,9 +115,9 @@ Vagrant::Config.run do |global_config|
     # Every Vagrant virtual environment requires a box to build off of.
 
     config.vm.box = "sl63-x86_64"
-    config.vm.network :hostonly, "10.0.1.101"
+    config.vm.network :hostonly, "10.0.1.100"
     config.vm.host_name = "rails.localhost"
-    config.vm.forward_port 80, 4567
+    config.vm.forward_port 80, 4568
 
     config.vm.provision :puppet do |puppet|
       puppet.manifest_file = "site.pp"
@@ -127,7 +127,7 @@ Vagrant::Config.run do |global_config|
 
     config.vm.customize [
                          "modifyvm", :id,
-                         "--name", "RAILS VM",
+                         "--name", "rails",
                          "--memory", "2048"
                         ]
   end
