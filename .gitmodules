@@ -10,3 +10,6 @@
 [submodule "puppet/modules/puppi"]
 	path = puppet/modules/puppi
 	url = http://github.com/example42/puppi.git
+[submodule "puppet/modules/slurm"]
+	path = puppet/modules/slurm
+	url = https://github.com/cernops/puppet-slurm.git
