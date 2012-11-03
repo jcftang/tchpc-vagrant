@@ -4,6 +4,8 @@
   sudo: True
 
   tasks:
+  - name: install the python-software-properties to get apt-add-repository
+    action: apt pkg=python-software-properties state=latest update-cache=yes
   - name: get the public key for ceph repo
     shell: wget -q -O- https://raw.github.com/ceph/ceph/master/keys/release.asc | apt-key add -
   - name: configure the apt repository
