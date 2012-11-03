@@ -12,6 +12,8 @@
   tasks:
   - name: write /etc/profile.d/proxy.sh
     action: template src=templates/proxy.j2 dest=/etc/profile.d/proxy.sh
+    tags:
+      - configuration
 
   - name: install tsocks
     action: apt name=$item state=installed
@@ -19,5 +21,8 @@
       - tsocks
     tags:
       - packages
+
   - name: configure tsocks
     action: template src=templates/tsocks.j2 dest=/etc/tsocks.conf
+    tags:
+      - configuration
