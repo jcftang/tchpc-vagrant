@@ -6,9 +6,18 @@
   vars:
     proxy_server: proxy.tchpc.tcd.ie
     proxy_port: 8080
-    socks_server: proxy.tchpc.tcd.ie
+    socks_server: 134.226.112.43
     socks_port: 1080
 
   tasks:
-  - name: write proxy.sh
+  - name: write /etc/profile.d/proxy.sh
     action: template src=templates/proxy.j2 dest=/etc/profile.d/proxy.sh
+
+  - name: install tsocks
+    action: apt name=$item state=installed
+    with_items:
+      - tsocks
+    tags:
+      - packages
+  - name: configure tsocks
+    action: template src=templates/tsocks.j2 dest=/etc/tsocks.conf
