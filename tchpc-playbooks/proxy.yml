@@ -1,0 +1,14 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: True
+
+  vars:
+    proxy_server: proxy.tchpc.tcd.ie
+    proxy_port: 8080
+    socks_server: proxy.tchpc.tcd.ie
+    socks_port: 1080
+
+  tasks:
+  - name: write proxy.sh
+    action: template src=templates/proxy.j2 dest=/etc/profile.d/proxy.sh

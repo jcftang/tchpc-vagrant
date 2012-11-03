@@ -19,7 +19,7 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook = "ansible-playbooks/nginx-ubuntu.yml"
+      ansible.playbook = "tchpc-playbooks/proxy.yml"
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
