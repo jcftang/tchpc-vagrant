@@ -13,3 +13,6 @@
 [submodule "puppet/modules/slurm"]
 	path = puppet/modules/slurm
 	url = https://github.com/cernops/puppet-slurm.git
+[submodule "ansible-playbooks"]
+	path = ansible-playbooks
+	url = https://github.com/cocoy/ansible-playbooks.git
