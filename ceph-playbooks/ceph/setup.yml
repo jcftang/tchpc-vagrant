@@ -1,0 +1,12 @@
+---
+- hosts: ceph;web-servers
+  user: vagrant
+  sudo: True
+
+  tasks:
+  - name: get the public key for ceph repo
+    shell: wget -q -O- https://raw.github.com/ceph/ceph/master/keys/release.asc | apt-key add -
+  - name: configure the apt repository
+    apt_repository: repo='deb http://eu.ceph.com/debian/ $(lsb_release -sc) main'
+  - name: install the latest version of ceph
+    action: apt pkg=ceph state=latest update-cache=yes
