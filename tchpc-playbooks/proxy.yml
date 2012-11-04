@@ -15,6 +15,9 @@
     tags:
       - configuration
 
+  - name: configure apt to use a proxy
+    action: template src=templates/apt.j2 dest=/etc/apt/apt.conf
+
   - name: install tsocks
     action: apt name=$item state=installed update_cache=yes
     with_items:
@@ -26,3 +29,9 @@
     action: template src=templates/tsocks.j2 dest=/etc/tsocks.conf
     tags:
       - configuration
+
+  - name: configure curlrc for root
+    action: template src=templates/curlrc.j2 dest=/root/.curlrc
+
+  - name: configure gemrc for root
+    action: template src=templates/gemrc.j2 dest=/root/.gemrc
