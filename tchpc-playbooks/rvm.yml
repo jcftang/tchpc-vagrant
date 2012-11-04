@@ -1,5 +1,5 @@
 ---
-- hosts: web-servers
+- hosts: rvm
   user: vagrant
   vars:
     home_directory: /home/${user} 

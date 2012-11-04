@@ -1,5 +1,5 @@
 ---
-- hosts: ceph;web-servers
+- hosts: ceph;webservers
   user: vagrant
   sudo: True
 

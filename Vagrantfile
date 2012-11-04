@@ -25,7 +25,7 @@ Vagrant::Config.run do |global_config|
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
-      ansible.hosts = "web-servers"
+      ansible.hosts = "webservers"
     end
 
     config.vm.customize [
