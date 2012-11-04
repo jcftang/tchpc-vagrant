@@ -7,6 +7,10 @@
     - global_vars.yml
 
   tasks:
+  - name: Ubuntu | install python-software-properties and python-apt
+    action: apt pkg='python-software-properties' state=installed
+    only_if: '$is_ubuntu'
+
   - name: Ubuntu | Enable ppa:rquillo/ansible
     action: command /usr/bin/add-apt-repository -y ppa:rquillo/ansible
     only_if: '$is_ubuntu'

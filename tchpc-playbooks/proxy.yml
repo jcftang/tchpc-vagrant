@@ -21,9 +21,18 @@
   - name: Ubuntu | configure apt to use a proxy
     action: template src=templates/apt.j2 dest=/etc/apt/apt.conf
     only_if: '$is_ubuntu'
+    tags: configuration
+
+  - name: Ubuntu | install python-software-properties and python-apt
+    action: apt pkg=$item state=installed update_cache=yes
+    only_if: '$is_ubuntu'
+    with_items:
+      - python-software-properties
+      - python-apt
+    tags: packages
 
   - name: Ubuntu | install tsocks
-    action: apt name=$item state=installed update_cache=yes
+    action: apt name=$item state=installed
     only_if: '$is_ubuntu'
     with_items:
       - tsocks
@@ -38,6 +47,8 @@
 
   - name: configure curlrc for root
     action: template src=templates/curlrc.j2 dest=/root/.curlrc
+    tags: configuration
 
   - name: configure gemrc for root
     action: template src=templates/gemrc.j2 dest=/root/.gemrc
+    tags: configuration
