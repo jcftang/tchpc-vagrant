@@ -1,7 +1,8 @@
 ---
-  - name: set up rvm
+  - name: Ubuntu | set up rvm
     sudo: True
     action: apt pkg=$item state=present
+    only_if: '$is_ubuntu'
     with_items:
       - build-essential
       - openssl
@@ -24,6 +25,35 @@
       - libtool
       - bison
       - subversion
+
+  - name: Scientific | set up rvm
+    sudo: True
+    action: yum pkg=$item state=present
+    only_if: '$is_scientific'
+    with_items:
+      - bzip2
+      - cpio
+      - expat-devel
+      - gcc
+      - gcc-c++
+      - gettext-devel
+      - git
+      - libcurl-devel
+      - libxml2
+      - libxml2-devel
+      - libxslt
+      - libxslt-devel
+      - mailx
+      - make
+      - openssl-devel
+      - patch
+      - perl
+      - readline-devel
+      - sendmail
+      - wget
+      - which
+      - zlib-devel
+
   - name: install rvm
     action: shell curl -L https://get.rvm.io | bash -s stable creates=${home_directory}/.rvm/
   - name: install ruby 1.9.3

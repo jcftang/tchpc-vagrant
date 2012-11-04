@@ -9,24 +9,30 @@
     socks_server: 134.226.112.43
     socks_port: 1080
 
+  vars_files:
+    - global_vars.yml
+
   tasks:
   - name: write /etc/profile.d/proxy.sh
     action: template src=templates/proxy.j2 dest=/etc/profile.d/proxy.sh
     tags:
       - configuration
 
-  - name: configure apt to use a proxy
+  - name: Ubuntu | configure apt to use a proxy
     action: template src=templates/apt.j2 dest=/etc/apt/apt.conf
+    only_if: '$is_ubuntu'
 
-  - name: install tsocks
+  - name: Ubuntu | install tsocks
     action: apt name=$item state=installed update_cache=yes
+    only_if: '$is_ubuntu'
     with_items:
       - tsocks
     tags:
       - packages
 
-  - name: configure tsocks
+  - name: Ubuntu | configure tsocks
     action: template src=templates/tsocks.j2 dest=/etc/tsocks.conf
+    only_if: '$is_ubuntu'
     tags:
       - configuration
 

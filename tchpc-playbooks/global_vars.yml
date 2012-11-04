@@ -1,0 +1,4 @@
+---
+is_ubuntu: "'$ansible_distribution' == 'Ubuntu'"
+is_debian: "'$ansible_distribution' == 'Debian'"
+is_scientific: "'$ansible_distribution' == 'Scientific'"

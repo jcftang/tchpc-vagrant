@@ -1,0 +1,32 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: True
+
+  vars_files:
+    - global_vars.yml
+
+  tasks:
+  - name: Ubuntu | Common packages
+    sudo: True
+    action: apt pkg=$item state=present
+    only_if: '$is_ubuntu'
+    with_items:
+      - git
+      - etckeeper
+
+  - name: Scientific | Enable EPEL
+    sudo: True
+    action: yum pkg=$item state=present
+    only_if: '$is_scientific'
+    with_items:
+      - epel-release
+
+  - name: Scientific | Common packages
+    sudo: True
+    action: yum pkg=$item state=present
+    only_if: '$is_scientific'
+    with_items:
+      - ansible
+      - git
+      - etckeeper

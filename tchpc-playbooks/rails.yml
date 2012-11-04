@@ -1,8 +1,13 @@
 ---
 - hosts: webservers
   user: vagrant
+
   vars:
     home_directory: /home/${user} 
+
+  vars_files:                                                                   
+    - global_vars.yml
+
   tasks:
   - include: ./rvm-setup.yml
   - name: install rails
