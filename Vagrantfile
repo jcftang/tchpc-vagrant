@@ -19,7 +19,8 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook =  [ "tchpc-playbooks/proxy.yml",
+      ansible.playbook =  [ "tchpc-playbooks/common.yml",
+                            "tchpc-playbooks/proxy.yml",
                             "tchpc-playbooks/rails.yml" ]
 
       # the Vagrant VM will be put in this host group change this should

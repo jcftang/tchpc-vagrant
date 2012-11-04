@@ -7,23 +7,29 @@
     - global_vars.yml
 
   tasks:
+  - name: Ubuntu | Enable ppa:rquillo/ansible
+    action: command /usr/bin/add-apt-repository -y ppa:rquillo/ansible
+    only_if: '$is_ubuntu'
+
+  - name: Ubuntu | Update repo
+    action: command /usr/bin/apt-get update
+    only_if: '$is_ubuntu'
+
   - name: Ubuntu | Common packages
-    sudo: True
     action: apt pkg=$item state=present
     only_if: '$is_ubuntu'
     with_items:
+      - ansible
       - git
       - etckeeper
 
   - name: Scientific | Enable EPEL
-    sudo: True
     action: yum pkg=$item state=present
     only_if: '$is_scientific'
     with_items:
       - epel-release
 
   - name: Scientific | Common packages
-    sudo: True
     action: yum pkg=$item state=present
     only_if: '$is_scientific'
     with_items:
