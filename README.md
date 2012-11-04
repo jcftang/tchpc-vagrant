@@ -10,9 +10,9 @@ team.
 
 ### IMPORTANT/WARNING
 
-This development scaffold has not been tested on windows!!!, The puppet
-scripts are currently targeted at the TCHPC network. If you are outside
-of the TCHPC network please look at _puppet/manifests/site.pp_ and
+This development scaffold has not been tested on windows!!!, The ansible 
+configuration are currently targeted at the TCHPC network. If you are outside
+of the TCHPC network please look at _Vagrantfile_ and
 comment out the appropriate line otherwise the proxies will be set and
 it *will not* work for you.
 
@@ -35,13 +35,14 @@ number of defintions have been created
 
 Prerequisites:
 
-  - Oracle VirtualBox
+  - [Oracle VirtualBox](https://www.virtualbox.org/)
     - requires kernel headers (yum install kernel-devel)
     - requires a c compiler (yum install gcc)
-  - Ruby (run time and development headers)
+  - [Ruby](http://www.ruby-lang.org/) (run time and development headers)
     - rubygems (yum install ruby ruby-devel rubygems)
     - bundler gem (gem install bundler)
     - vagrant gem (gem install vagrant)
+  - [Ansible](http://ansible.cc/) (This is the provisioning layer)
 
 1. Clone the git repository
 
@@ -49,7 +50,8 @@ Prerequisites:
 
 	$ bundle install
 
-2. Create a basebox and add it to vagrant
+2. Create a basebox and add it to vagrant (if you have a basebox already then
+you do not need to run the build and export steps)
 
 	$ vagrant basebox build 'scientificlinux-6.3-x86_64-netboot'
 	$ vagrant basebox export 'scientificlinux-6.3-x86_64-netboot'
