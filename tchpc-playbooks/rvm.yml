@@ -33,3 +33,7 @@
     action: shell curl -L https://get.rvm.io | bash -s stable creates=${home_directory}/.rvm/
   - name: install ruby 1.9.3
     action: shell .rvm/bin/rvm install 1.9.3
+  - name: rvm use ruby 1.9.3 by default
+    action: shell .rvm/bin/rvm alias create default ruby-1.9.3-p286
+  - name: install rails
+    action: shell .rvm/bin/gem install rails
