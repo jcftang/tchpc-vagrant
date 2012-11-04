@@ -1,12 +1,7 @@
 ---
-- hosts: rvm
-  user: vagrant
-  vars:
-    home_directory: /home/${user} 
-  tasks:
   - name: set up rvm
     sudo: True
-    action: apt pkg=$item state=present update_cache=yes
+    action: apt pkg=$item state=present
     with_items:
       - build-essential
       - openssl
@@ -35,5 +30,3 @@
     action: shell .rvm/bin/rvm install 1.9.3
   - name: rvm use ruby 1.9.3 by default
     action: shell .rvm/bin/rvm alias create default ruby-1.9.3-p286
-  - name: install rails
-    action: shell .rvm/bin/gem install rails
