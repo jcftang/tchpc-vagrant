@@ -6,7 +6,7 @@
   tasks:
   - name: set up rvm
     sudo: True
-    action: apt pkg=$item state=present
+    action: apt pkg=$item state=present update_cache=yes
     with_items:
       - build-essential
       - openssl
@@ -31,3 +31,5 @@
       - subversion
   - name: install rvm
     action: shell curl -L https://get.rvm.io | bash -s stable creates=${home_directory}/.rvm/
+  - name: install ruby 1.9.3
+    action: shell .rvm/bin/rvm install 1.9.3
