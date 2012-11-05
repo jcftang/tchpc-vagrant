@@ -4,7 +4,7 @@
 # out into fragments then re-assembled
 # 
 ---
-- hosts: ceph
+- hosts: ceph;kraken
   user: vagrant
   sudo: True
 

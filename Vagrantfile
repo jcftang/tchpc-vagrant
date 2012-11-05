@@ -89,4 +89,33 @@ Vagrant::Config.run do |global_config|
     ]
   end
 
+  global_config.vm.define(:kraken) do |config|
+  # Every Vagrant virtual environment requires a box to build off of.
+
+    config.vm.box = "precise64"
+    config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/precise64.box"
+
+    config.vm.network :hostonly, "10.0.1.106"
+    config.vm.host_name = "kraken.localhost"
+
+    config.vm.provision :ansible do |ansible|
+      # point Vagrant at the location of your playbook you want to run
+      ansible.playbook =  [ "tchpc-playbooks/proxy.yml",
+                            "tchpc-playbooks/common.yml",
+                            "tchpc-playbooks/rails.yml",
+                            "ceph-playbooks/ceph/setup.yml" ]
+
+      # the Vagrant VM will be put in this host group change this should
+      # match the host group in your playbook you want to test
+      ansible.hosts = "kraken"
+    end
+
+    config.vm.customize [
+      "modifyvm", :id,
+      "--name", "Kraken VM",
+      "--memory", "2048"
+    ]
+  end
+
+
 end
