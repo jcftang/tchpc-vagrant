@@ -1,8 +1,21 @@
+#
+# the ceph.conf template could be far more clever, this is just a start of the
+# automation process, the osd, mon and mds components should all be seperated
+# out into fragments then re-assembled
+# 
 ---
 - hosts: ceph
   user: vagrant
   sudo: True
 
+  vars:
+    mon_addr: 6789
+    mon_ip_a: ${ansible_default_ipv4.address}
+    mon_fqdn_a: ${ansible_fqdn}
+    mds_fqdn_a: ${ansible_fqdn}
+    osd_fqdn_0: ${ansible_fqdn}
+    osd_fqdn_1: ${ansible_fqdn}
+  
   tasks:
 
   - name: install the python-software-properties to get apt-add-repository
@@ -33,3 +46,29 @@
 
   - name: install insecure config for vagrant
     action: copy src=files/insecure_config dest=/home/vagrant/.ssh/config owner=vagrant group=vagrant mode=0600
+
+  - name: install reference ceph.conf
+    action: template src=templates/ceph.j2 dest=/etc/ceph/ceph.conf
+
+  - name: create directories for ceph mons and osds
+    action: file path=$item state=directory
+    with_items:
+      - /var/lib/ceph/osd/ceph-0
+      - /var/lib/ceph/osd/ceph-1
+      - /var/lib/ceph/mon/ceph-a
+      - /var/lib/ceph/mds/ceph-a
+
+  - name: make sure root fs is mounted with correct settings
+    mount: name=/ fstype=ext4 opts=errors=remount-ro,user_xattr src=/dev/mapper/precise64-root passno=1 state=mounted
+
+  - name: create the ceph filesystem
+    action: command mkcephfs -a -c /etc/ceph/ceph.conf -k /etc/ceph/ceph.keyring chdir=/etc/ceph creates=/etc/ceph/ceph.keyring
+    notify:
+      - restart ceph
+
+  - name: start ceph and ensure it is enabled
+    action: service name=ceph state=started enabled=yes
+
+  handlers:
+    - name: restart ceph
+      action: service name=ceph state=restarted
