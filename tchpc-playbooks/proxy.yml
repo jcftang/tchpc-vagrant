@@ -22,6 +22,11 @@
     only_if: '$is_ubuntu'
     tags: configuration
 
+  - name: Scientific | configure yum to use a proxy
+    action: template src=templates/yum.j2 dest=/etc/yum.conf
+    only_if: '$is_scientific'
+    tags: configuration
+
   - name: Ubuntu | install python-software-properties and python-apt
     action: apt pkg=$item state=installed update_cache=yes
     only_if: '$is_ubuntu'
