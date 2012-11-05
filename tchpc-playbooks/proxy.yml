@@ -55,7 +55,7 @@
     action: template src=templates/gemrc.j2 dest=/root/.gemrc
     tags: configuration
 
-  - name: configure wgetrc for the system
+  - name: Ubuntu | configure wgetrc for the system
     action: template src=templates/wgetrc.j2 dest=/etc/wgetrc
     only_if: '$is_ubuntu'
     tags: configuration
