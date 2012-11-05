@@ -15,12 +15,8 @@
     action: command /usr/bin/add-apt-repository -y ppa:rquillo/ansible
     only_if: '$is_ubuntu'
 
-  - name: Ubuntu | Update repo
-    action: command /usr/bin/apt-get update
-    only_if: '$is_ubuntu'
-
   - name: Ubuntu | Common packages
-    action: apt pkg=$item state=present
+    action: apt pkg=$item state=present update_cache=yes force=yes
     only_if: '$is_ubuntu'
     with_items:
       - ansible
