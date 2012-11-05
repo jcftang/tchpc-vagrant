@@ -31,7 +31,7 @@ number of defintions have been created
 * scientificlinux-6.3-i386-netboot-devops.box
 * scientificlinux-6.3-x86_64-netboot-devops.box
 
-## Installation (of VirtualBox VM)
+## Requirements
 
 Prerequisites:
 
@@ -43,6 +43,26 @@ Prerequisites:
     - bundler gem (gem install bundler)
     - vagrant gem (gem install vagrant)
   - [Ansible](http://ansible.cc/) (This is the provisioning layer)
+
+## Installing Ansible
+
+As ansible may not be available on your packaging system, please refer to
+http://ansible.cc/docs/gettingstarted.html.
+
+If you are on OSX (with macports installed)
+
+	$ sudo port install py-yaml py-paramiko
+	$ git clone https://github.com/ansible/ansible.git
+	$ cd ansible
+	$ make
+
+Once the scripts and docs are all generated, place something like this into your
+*.bash_profile* or *.bashrc* file
+
+	source $HOME/develop/ansible/hacking/env-setup
+	export ANSIBLE_HOSTS=$HOME/.ansible_hosts
+
+## Installation/Configuration of tchpc-vagrant repo
 
 1. Clone the git repository
 
