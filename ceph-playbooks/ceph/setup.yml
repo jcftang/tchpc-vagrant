@@ -66,6 +66,9 @@
     notify:
       - restart ceph
 
+  - name: start ceph with service command
+    action: command service ceph -a start
+
   - name: start ceph and ensure it is enabled
     action: service name=ceph state=started enabled=yes
 
