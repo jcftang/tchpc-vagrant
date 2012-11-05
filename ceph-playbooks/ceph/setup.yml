@@ -9,12 +9,12 @@
   sudo: True
 
   vars:
-    mon_addr: 6789
+    mon_port: 6789
     mon_ip_a: ${ansible_default_ipv4.address}
-    mon_fqdn_a: ${ansible_fqdn}
-    mds_fqdn_a: ${ansible_fqdn}
-    osd_fqdn_0: ${ansible_fqdn}
-    osd_fqdn_1: ${ansible_fqdn}
+    mon_fqdn_a: ${ansible_default_ipv4.address}
+    mds_fqdn_a: ${ansible_default_ipv4.address}
+    osd_fqdn_0: ${ansible_default_ipv4.address}
+    osd_fqdn_1: ${ansible_default_ipv4.address}
   
   tasks:
 
@@ -69,6 +69,12 @@
   - name: start ceph and ensure it is enabled
     action: service name=ceph state=started enabled=yes
 
+  - name: register ceph secret key
+    action: shell grep key /etc/ceph/ceph.keyring | awk '{print $3}' > /etc/ceph/admin.secret
+
+  - name: mount cephfs to /ceph
+    mount: name=/ceph src=${mon_ip_a}:${mon_port}:/ opts=noauto,rw,noexec,nodev,noatime,nodiratime,name=admin,secretfile=/etc/ceph/admin.secret fstype=ceph passno=2 state=mounted
+    
   handlers:
     - name: restart ceph
       action: service name=ceph state=restarted
