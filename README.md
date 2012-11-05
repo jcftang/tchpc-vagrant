@@ -64,13 +64,13 @@ Once the scripts and docs are all generated, place something like this into your
 
 ## Installation/Configuration of tchpc-vagrant repo
 
-1. Clone the git repository
+Clone the git repository
 
-1. Use bundler to install the deployment Gemfile
+Use bundler to install the deployment Gemfile
 
 	$ bundle install
 
-2. Create a basebox and add it to vagrant (if you have a basebox already then
+Create a basebox and add it to vagrant (if you have a basebox already then
 you do not need to run the build and export steps)
 
 	$ vagrant basebox build 'scientificlinux-6.3-x86_64-netboot'
@@ -80,10 +80,10 @@ you do not need to run the build and export steps)
 If you already have a basebox created you can skip the build and export
 steps.
 
-3. Startup the virtual machine
+Startup the virtual machine
 
 	$ vagrant up
 
-4. Login to the virtual machine
+Login to the virtual machine
 
 	$ vagrant ssh
