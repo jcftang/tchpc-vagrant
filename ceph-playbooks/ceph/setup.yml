@@ -3,6 +3,8 @@
 # automation process, the osd, mon and mds components should all be seperated
 # out into fragments then re-assembled
 # 
+# This playbook is currently ubuntu specific
+#
 ---
 - hosts: ceph;kraken
   user: vagrant
@@ -15,7 +17,10 @@
     mds_fqdn_a: ${ansible_default_ipv4.address}
     osd_fqdn_0: ${ansible_default_ipv4.address}
     osd_fqdn_1: ${ansible_default_ipv4.address}
-  
+
+  vars_files:
+    - ../global_vars.yml
+
   tasks:
 
   - name: install the python-software-properties to get apt-add-repository
