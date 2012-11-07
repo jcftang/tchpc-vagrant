@@ -6,7 +6,7 @@
 # This playbook is currently ubuntu specific
 #
 ---
-- hosts: ceph;kraken
+- hosts: ceph-ubuntu;kraken-ubuntu
   user: vagrant
   sudo: True
 
@@ -23,36 +23,17 @@
 
   tasks:
 
-  - name: Ubuntu | Install the python-software-properties to get apt-add-repository
+  - name: Install the python-software-properties to get apt-add-repository
     action: apt pkg=python-software-properties state=latest update-cache=yes
-    only_if: '$is_ubuntu'
 
-  - name: Ubuntu | Get the public key for ceph repo
+  - name: Get the public key for ceph repo
     shell: wget -q -O- https://raw.github.com/ceph/ceph/master/keys/release.asc | apt-key add -
-    only_if: '$is_ubuntu'
 
-  - name: Ubuntu | Configure the ceph apt repository
+  - name: Configure the ceph apt repository
     apt_repository: repo='deb http://eu.ceph.com/debian/ $(lsb_release -sc) main'
-    only_if: '$is_ubuntu'
 
-  - name: Ubuntu | Install the latest version of ceph
+  - name: Install the latest version of ceph
     action: apt pkg=ceph state=latest update-cache=yes
-    only_if: '$is_ubuntu'
-
-  - name: Scientific | Get the public key for ceph repo
-    action: command rpm --import https://raw.github.com/ceph/ceph/master/keys/release.asc
-    only_if: '$is_scientific'
-
-  - name: Scienfitic | Configure the ceph yum repository
-    action: command rpm -Uvh http://ceph.com/rpms/el6/x86_64/ceph-release-1-0.el6.noarch.rpm creates=/etc/yum.repos.d/ceph.repo
-    only_if: '$is_scientific'
-
-  - name: Scientific | Install the latest version of ceph
-    action: yum pkg=$item state=present
-    only_if: '$is_scientific'
-    with_items:
-      - ceph-fuse
-      - ceph
 
   - name: authorized_keys for root
     authorized_key: user=root key="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key" state=present
@@ -83,13 +64,8 @@
       - /var/lib/ceph/mon/ceph-a
       - /var/lib/ceph/mds/ceph-a
 
-  - name: Ubuntu | Make sure root fs is mounted with correct settings
+  - name: Make sure root fs is mounted with correct settings
     mount: name=/ fstype=ext4 opts=errors=remount-ro,user_xattr src=/dev/mapper/precise64-root passno=1 state=mounted
-    only_if: '$is_ubuntu'
-
-  - name: Scientific | Make sure root fs is mounted with correct settings
-    mount: name=/ fstype=ext4 opts=errors=remount-ro,user_xattr src=/dev/mapper/VolGroup-lv_root passno=1 state=mounted
-    only_if: '$is_scientific'
 
   - name: create the ceph filesystem
     action: command mkcephfs -a -c /etc/ceph/ceph.conf -k /etc/ceph/ceph.keyring chdir=/etc/ceph creates=/etc/ceph/ceph.keyring
@@ -108,18 +84,9 @@
   - name: Wait for mon to come up
     wait_for: host=${mon_ip_a} port=${mon_port} delay=10
 
-  - name: Ubuntu | mount cephfs to /ceph
+  - name: mount cephfs to /ceph
     mount: name=/ceph src=${mon_ip_a}:${mon_port}:/ opts=noauto,rw,noexec,nodev,noatime,nodiratime,name=admin,secretfile=/etc/ceph/admin.secret fstype=ceph passno=2 state=mounted
-    only_if: '$is_ubuntu'
     
-  - name: Scientific | Make mount point for ceph
-    action: file path=/ceph state=directory
-    only_if: '$is_scientific'
-
-  - name: Scientific | Mount /ceph
-    action: shell ceph-fuse /ceph
-    only_if: '$is_scientific'
-
   handlers:
     - name: restart ceph
       action: service name=ceph state=restarted

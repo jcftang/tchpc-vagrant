@@ -71,9 +71,9 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook =  [ "tchpc-playbooks/proxy-sl.yml",
-                            "tchpc-playbooks/common-sl.yml",
-                            "ceph-playbooks/ceph/setup.yml" ]
+      ansible.playbook =  [ "tchpc-playbooks/proxy-ubuntu.yml",
+                            "tchpc-playbooks/common-ubuntu.yml",
+                            "ceph-playbooks/ceph/setup-ubuntu.yml" ]
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
@@ -98,14 +98,14 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook =  [ "tchpc-playbooks/proxy.yml",
-                            "tchpc-playbooks/common.yml",
-                            "tchpc-playbooks/rails.yml",
-                            "ceph-playbooks/ceph/setup.yml" ]
+      ansible.playbook =  [ "tchpc-playbooks/proxy-ubuntu.yml",
+                            "tchpc-playbooks/common-ubuntu.yml",
+                            "tchpc-playbooks/rails-ubuntu.yml",
+                            "ceph-playbooks/ceph/setup-ubuntu.yml" ]
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
-      ansible.hosts = "kraken"
+      ansible.hosts = "kraken-ubuntu"
     end
 
     config.vm.customize [
