@@ -77,7 +77,7 @@ Vagrant::Config.run do |global_config|
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
-      ansible.hosts = "ceph"
+      ansible.hosts = "ceph-ubuntu"
     end
 
     config.vm.customize [
