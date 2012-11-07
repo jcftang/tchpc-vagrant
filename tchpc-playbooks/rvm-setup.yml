@@ -54,8 +54,12 @@
       - which
       - zlib-devel
 
+  - name: configure curlrc for vagrant                                           
+    action: template src=templates/curlrc.j2 dest=/home/vagrant/.curlrc                 
+    tags: configuration                                                         
+
   - name: install rvm
-    action: shell curl -L https://get.rvm.io | bash -s stable creates=${home_directory}/.rvm/
+    action: shell curl -L https://get.rvm.io | bash -s stable creates=/home/vagrant/.rvm/
 
   - name: install ruby 1.9.3
     action: shell .rvm/bin/rvm install 1.9.3
