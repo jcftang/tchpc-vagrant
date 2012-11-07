@@ -19,12 +19,12 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook =  [ "tchpc-playbooks/proxy.yml",
-                            "tchpc-playbooks/common.yml" ]
+      ansible.playbook =  [ "tchpc-playbooks/proxy-ubuntu.yml",
+                            "tchpc-playbooks/common-ubuntu.yml" ]
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
-      ansible.hosts = "webservers"
+      ansible.hosts = "webservers-ubuntu"
     end
 
     config.vm.customize [
@@ -45,12 +45,12 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook =  [ "tchpc-playbooks/proxy.yml",
-                            "tchpc-playbooks/common.yml" ]
+      ansible.playbook =  [ "tchpc-playbooks/proxy-sl.yml",
+                            "tchpc-playbooks/common-sl.yml" ]
 
       # the Vagrant VM will be put in this host group change this should
       # match the host group in your playbook you want to test
-      ansible.hosts = "webservers"
+      ansible.hosts = "webservers-sl"
     end
 
     config.vm.customize [
@@ -71,8 +71,8 @@ Vagrant::Config.run do |global_config|
 
     config.vm.provision :ansible do |ansible|
       # point Vagrant at the location of your playbook you want to run
-      ansible.playbook =  [ "tchpc-playbooks/proxy.yml",
-                            "tchpc-playbooks/common.yml",
+      ansible.playbook =  [ "tchpc-playbooks/proxy-sl.yml",
+                            "tchpc-playbooks/common-sl.yml",
                             "ceph-playbooks/ceph/setup.yml" ]
 
       # the Vagrant VM will be put in this host group change this should

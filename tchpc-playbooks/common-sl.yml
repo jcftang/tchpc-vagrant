@@ -1,0 +1,21 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: True
+
+  vars_files:
+    - global_vars.yml
+
+  tasks:
+
+  - name: Enable EPEL
+    action: yum pkg=$item state=present
+    with_items:
+      - epel-release
+
+  - name: Common packages
+    action: yum pkg=$item state=present
+    with_items:
+      - ansible
+      - git
+      - etckeeper

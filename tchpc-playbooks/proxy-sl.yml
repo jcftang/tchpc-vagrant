@@ -1,0 +1,30 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: True
+
+  vars:
+    proxy_server: proxy.tchpc.tcd.ie
+    proxy_port: 8080
+    socks_server: 134.226.112.43
+    socks_port: 1080
+
+  vars_files:
+    - global_vars.yml
+
+  tasks:
+  - name: write /etc/profile.d/proxy.sh
+    action: template src=templates/proxy.j2 dest=/etc/profile.d/proxy.sh
+    tags: configuration
+
+  - name: Configure yum to use a proxy
+    action: template src=templates/yum.j2 dest=/etc/yum.conf
+    tags: configuration
+
+  - name: Configure curlrc for root
+    action: template src=templates/curlrc.j2 dest=/root/.curlrc
+    tags: configuration
+
+  - name: Configure gemrc for root
+    action: template src=templates/gemrc.j2 dest=/root/.gemrc
+    tags: configuration
