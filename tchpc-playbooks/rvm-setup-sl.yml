@@ -1,0 +1,26 @@
+---
+  - name: Set up rvm
+    action: yum pkg=$item state=present
+    with_items:
+      - bzip2
+      - cpio
+      - expat-devel
+      - gcc
+      - gcc-c++
+      - gettext-devel
+      - git
+      - libcurl-devel
+      - libxml2
+      - libxml2-devel
+      - libxslt
+      - libxslt-devel
+      - mailx
+      - make
+      - openssl-devel
+      - patch
+      - perl
+      - readline-devel
+      - sendmail
+      - wget
+      - which
+      - zlib-devel

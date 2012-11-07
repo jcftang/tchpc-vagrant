@@ -1,0 +1,19 @@
+---
+- hosts: webservers-sl;kraken-sl
+  user: vagrant
+
+  vars:
+    home_directory: /home/${user} 
+
+  vars_files:                                                                   
+    - global_vars.yml
+
+  tasks:
+  - include: ./rvm-setup-sl.yml
+  - include: ./rvm-setup-common.yml
+
+  - name: install rails
+    action: shell .rvm/bin/gem install rails
+
+  - name: install unicorn
+    action: shell .rvm/bin/gem install unicorn
