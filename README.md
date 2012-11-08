@@ -10,6 +10,9 @@ team.
 
 ### IMPORTANT/WARNING
 
+The documentation is not accurate, please look at the vagrantfile for
+more up to date information!!!!
+
 This development scaffold has not been tested on windows!!!, The ansible 
 configuration are currently targeted at the TCHPC network. If you are outside
 of the TCHPC network please look at _Vagrantfile_ and
