@@ -115,4 +115,31 @@ Vagrant::Config.run do |global_config|
     ]
   end
 
+  global_config.vm.define(:kraken_sl) do |config|
+  # Every Vagrant virtual environment requires a box to build off of.
+
+    config.vm.box = "sl63-x86_64"
+    config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/scientificlinux-6.3-x86_64-netboot-devops.box"
+
+    config.vm.network :hostonly, "10.0.1.107"
+    config.vm.host_name = "kraken-sl.localhost"
+
+    config.vm.provision :ansible do |ansible|
+      # point Vagrant at the location of your playbook you want to run
+      ansible.playbook =  [ "tchpc-playbooks/proxy-sl.yml",
+                            "tchpc-playbooks/common-sl.yml",
+                            "tchpc-playbooks/rails-sl.yml",
+                            "ceph-playbooks/ceph/setup-sl.yml" ]
+
+      # the Vagrant VM will be put in this host group change this should
+      # match the host group in your playbook you want to test
+      ansible.hosts = "kraken-sl"
+    end
+
+    config.vm.customize [
+      "modifyvm", :id,
+      "--name", "Kraken SL VM",
+      "--memory", "2048"
+    ]
+  end
 end
