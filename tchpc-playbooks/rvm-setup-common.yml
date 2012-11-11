@@ -10,7 +10,7 @@
     action: shell .rvm/bin/rvm install 1.9.3
 
   - name: use ruby 1.9.3 by default
-    action: shell .rvm/bin/rvm alias create default ruby-1.9.3-p286
+    action: shell .rvm/bin/rvm use 1.9.3 --default
 
   - name: install facter
     action: shell .rvm/bin/gem install facter

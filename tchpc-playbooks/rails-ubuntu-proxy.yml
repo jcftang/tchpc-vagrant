@@ -1,0 +1,20 @@
+---
+- hosts: webservers-ubuntu;kraken-ubuntu
+  user: vagrant
+
+  vars:
+    home_directory: /home/${user} 
+    proxy_server: proxy.tchpc.tcd.ie
+    proxy_port: 8080
+
+  vars_files:                                                                   
+    - global_vars.yml
+
+  tasks:
+  - name: configure curlrc for vagrant
+    action: template src=templates/curlrc.j2 dest=/home/vagrant/.curlrc
+    tags: configuration
+
+  - name: configure gemrc for root
+    action: template src=templates/gemrc.j2 dest=/home/vagrant/.gemrc
+    tags: configuration
