@@ -8,7 +8,7 @@
 
   tasks:
   - name: Install python-software-properties and python-apt
-    action: apt pkg='python-software-properties' state=installed
+    action: apt pkg='python-software-properties' state=installed update_cache=yes
 
   - name: Enable ppa:rquillo/ansible
     action: command /usr/bin/add-apt-repository -y ppa:rquillo/ansible
