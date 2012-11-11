@@ -100,6 +100,7 @@ Vagrant::Config.run do |global_config|
       # point Vagrant at the location of your playbook you want to run
       ansible.playbook =  [ "tchpc-playbooks/proxy-ubuntu.yml",
                             "tchpc-playbooks/common-ubuntu.yml",
+                            "tchpc-playbooks/rails-ubuntu-proxy.yml",
                             "tchpc-playbooks/rails-ubuntu.yml",
                             "ceph-playbooks/ceph/setup-ubuntu.yml" ]
 
