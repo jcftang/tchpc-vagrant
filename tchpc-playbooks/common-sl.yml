@@ -21,6 +21,7 @@
       - etckeeper
       - python-setuptools
       - MySQL-python
+      - python-psycopg2
       - avahi
       - avahi-dnsconfd
 
