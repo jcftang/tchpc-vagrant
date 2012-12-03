@@ -19,3 +19,5 @@
       - ansible
       - git
       - etckeeper
+      - python-setuptools
+
