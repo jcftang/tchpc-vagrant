@@ -19,6 +19,7 @@
       - ansible
       - git
       - etckeeper
+      - python-pip
       - python-setuptools
       - MySQL-python
       - python-psycopg2

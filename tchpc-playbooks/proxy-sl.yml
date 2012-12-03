@@ -28,3 +28,5 @@
   - name: Configure gemrc for root
     action: template src=templates/gemrc.j2 dest=/root/.gemrc
     tags: configuration
+
+  - include: ./pip-proxy-sl.yml
