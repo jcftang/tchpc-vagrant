@@ -29,4 +29,4 @@
     action: template src=templates/gemrc.j2 dest=/root/.gemrc
     tags: configuration
 
-  - include: ./pip-proxy-sl.yml
+  - include: ./pip-proxy-common.yml

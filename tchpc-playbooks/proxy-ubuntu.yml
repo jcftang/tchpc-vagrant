@@ -49,3 +49,5 @@
   - name: Configure wgetrc for the system
     action: template src=templates/wgetrc.j2 dest=/etc/wgetrc
     tags: configuration
+
+  - include: ./pip-proxy-common.yml
